@@ -76,17 +76,6 @@ app.get('/rooms/:roomId', (req, res) => {
   });
 });
 
-app.get('/closed-room', (req, res) => {
-  connection.query('SELECT * FROM conv WHERE conv_status = 1', (error, results, fields) => {
-    if (error) {
-      console.error('Erreur lors de la récupération des rooms depuis la base de données :', error);
-      res.status(500).json({ error: 'Erreur lors de la récupération des rooms' });
-    } else {
-      res.json(results);
-    }
-  });
-});
-
 app.get('/messages/:roomId', (req, res) => {
   const roomId = req.params.roomId;
   connection.query('SELECT * FROM message WHERE id_conv = ?', [roomId], (error, results, fields) => {
@@ -98,6 +87,18 @@ app.get('/messages/:roomId', (req, res) => {
     } 
   });
 });
+
+app.get('/closed-room', (req, res) => {
+  connection.query('SELECT * FROM conv WHERE conv_status = 1', (error, results, fields) => {
+    if (error) {
+      console.error('Erreur lors de la récupération des rooms depuis la base de données :', error);
+      res.status(500).json({ error: 'Erreur lors de la récupération des rooms' });
+    } else {
+      res.json(results);
+    }
+  });
+});
+
 
 app.post('/messages', (req, res) => {
   const { roomId, message } = req.body;

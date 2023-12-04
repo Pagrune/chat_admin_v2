@@ -1,16 +1,26 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const MessagesAdmin = ({ socket, roomId }) => {
+const MessagesAdmin = ({ socket, room }) => {
   const [messagesReceived, setMessagesReceived] = useState([]);
   const [messagesDB, setMessagesDB] = useState([]);
 
-  console.log('room = '+roomId);
+  console.log('room = '+room);
 
   socket.on('join_room_admin', (data) => {
     const { username, roomId } = data; // Include roomId in the destructuring
     console.log('socket_join'+data);
   });
+
+  useEffect(() => {
+    axios
+      .get(`http://localhost:4000/messages/${room}`)
+      .then((res) => {
+        console.log('messages conversation '+res.data);
+        setMessagesDB(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
 
   socket.on('show_message', (data) => {
     const { room } = data; // Include roomId in the destructuring
