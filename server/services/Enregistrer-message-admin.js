@@ -8,10 +8,10 @@ async function enregistrerMessageAdmin(message, username, __createdtime__, room,
   try {
     // Créer un pool de connexions MySQL
     const pool = mysql.createPool({
-      host: 'localhost',
-      user: 'root',
-      password: '',
-      database: 'chatv2',
+      host: process.env.BDD_HOST,
+      user: process.env.BDD_USER,
+      password: process.env.BDD_PWD,
+      database: process.env.BDD_DB,
       waitForConnections: true,
       connectionLimit: 10,
       queueLimit: 0

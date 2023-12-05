@@ -2,12 +2,13 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 
+
  // MySQL Connection
  const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'chatv2'
+    host: process.env.BDD_HOST,
+    user: process.env.BDD_USER,
+    password: process.env.BDD_PWD,
+    database: process.env.BDD_DB
   });
 
   connection.connect();
