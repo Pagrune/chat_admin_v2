@@ -42,7 +42,9 @@
     };
 
     const handleRoomClosedClick = (roomId, convTitle, convStatus) => {
-      navigate('/admin/closed-id', {replace: true, state: {roomId, convTitle, convStatus}})
+      socket.emit('room_closed_clicked', { roomId, convTitle, convStatus });
+      navigate('/admin/closed-id', { replace: true });
+
     };
 
     return (

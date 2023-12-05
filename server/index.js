@@ -23,7 +23,7 @@ const io = new Server(server, {
   });
 
 // routes
-app.use("/chat/api/", require("./router/Routes")); 
+app.use("/", require("./router/Routes")); 
 
 
 
@@ -150,6 +150,10 @@ io.on('connection', (socket) => {
          });
   });
  
+  socket.on('room_closed_clicked', (data) => {
+    socket.emit('room_closed_clicked', data);
+    // console.log('Room closed clicked:', data);
+  });
   
 });
 

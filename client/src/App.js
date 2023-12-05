@@ -7,6 +7,7 @@ import Chat from './pages/chat';
 import AdminPage from './pages/admin';
 import AdminChat from './pages/admin/chat';
 // import axios from 'axios';
+import AdminClosedChat from './pages/admin/closed-id';
 
 const socket = io.connect('http://localhost:4000'); // Add this -- our server will run on port 4000, so we connect to it from here
 
@@ -62,7 +63,7 @@ function App() {
               element={<AdminPage username={username} setUsername={setUsername} room={room} setRoom={setRoom} rubrique={rubrique} titleConv={titleConv} socket={socket} />}
             />
             <Route path='/admin/chat' element={<AdminChat username={username} room={room} rubrique={rubrique} titleConv={titleConv} socket={socket} />} />
-            <Route path='/admin/closed-id' element={<AdminChat username={username} room={room} rubrique={rubrique} titleConv={titleConv} socket={socket} />} />
+            <Route path='/admin/closed-id' element={<AdminClosedChat  socket={socket} />} />
           </Routes>
         </div>
       </Router>
