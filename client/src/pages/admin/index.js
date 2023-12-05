@@ -41,7 +41,9 @@
         navigate('/admin/chat', { replace: true });  
     };
 
-    const handleRoomClosedClick = (roomId, convTitle, convStatus) => {};
+    const handleRoomClosedClick = (roomId, convTitle, convStatus) => {
+      navigate('/admin/closed-id', {replace: true, state: {roomId, convTitle, convStatus}})
+    };
 
     return (
       <div>

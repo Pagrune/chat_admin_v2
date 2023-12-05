@@ -2,16 +2,21 @@ import React, { useEffect, useState } from 'react';
 import MessagesAdmin from './messages-admin';
 import SendMessageAdmin from './send-message-admin';
 import axios from 'axios';
+import Header from './header-admin';
+import { set } from 'date-fns';
 
 const AdminChat = ({ username, room, rubrique, titleConv, socket }) => {
+  const [convData, setConvData] = useState([]);
+
+
   console.log('room =' + room);
+  const closeConvHandler = () => {
+    socket.emit('close_conv');
+    console.log('close conv');
+    setConvData([]); // Efface les données de la conversation pour déclencher le rendu de chargement
+  };
 
   useEffect(() => {
-    const closeConvHandler = () => {
-      socket.emit('close_conv');
-      document.querySelector('#close-conv').style.display = 'none';
-    };
-
     const closeConvButton = document.querySelector('#close-conv');
     if (closeConvButton) {
       closeConvButton.addEventListener('click', closeConvHandler);
@@ -22,7 +27,7 @@ const AdminChat = ({ username, room, rubrique, titleConv, socket }) => {
         closeConvButton.removeEventListener('click', closeConvHandler);
       }
     };
-  }, [room, socket]);
+  }, [closeConvHandler]);
 
   const [Conv, setConv] = useState([]);
 
@@ -45,6 +50,7 @@ const AdminChat = ({ username, room, rubrique, titleConv, socket }) => {
   } else {
     return (
       <div>
+        <Header />
         <h2>Sujet conversation : {Conv[0].conv_title} </h2>
         <div>
           <MessagesAdmin socket={socket} room={room} />

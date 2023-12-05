@@ -62,6 +62,7 @@ function App() {
               element={<AdminPage username={username} setUsername={setUsername} room={room} setRoom={setRoom} rubrique={rubrique} titleConv={titleConv} socket={socket} />}
             />
             <Route path='/admin/chat' element={<AdminChat username={username} room={room} rubrique={rubrique} titleConv={titleConv} socket={socket} />} />
+            <Route path='/admin/closed-id' element={<AdminChat username={username} room={room} rubrique={rubrique} titleConv={titleConv} socket={socket} />} />
           </Routes>
         </div>
       </Router>
