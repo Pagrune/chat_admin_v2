@@ -22,95 +22,17 @@ const io = new Server(server, {
     },
   });
 
-  // MySQL Connection
-  const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'chatv2'
-  });
-
-  connection.connect();
- 
-
 // routes
-// app.use("/chat/api/", require("./router/Routes")); 
-app.get('/', (req, res) => {
-    res.send('Hello world');
-  });
+app.use("/chat/api/", require("./router/Routes")); 
 
 
-app.get('/sujet', (req, res) => {
-    connection.query('SELECT * FROM sujet', (error, results, fields) => {
-      if (error) throw error;
-      res.json(results);
-    });
-});
+
+
 
 // app.get('/login', (req, res) => {
 //   // get cookies
 //   console.log(req.cookies);
 // });
-
-
-app.get('/rooms', (req, res) => {
-  connection.query('SELECT * FROM conv WHERE conv_status = 0', (error, results, fields) => {
-    if (error) {
-      console.error('Erreur lors de la récupération des rooms depuis la base de données :', error);
-      res.status(500).json({ error: 'Erreur lors de la récupération des rooms' });
-    } else {
-      res.json(results);
-    }
-  });
-});
-
-app.get('/rooms/:roomId', (req, res) => {
-  const roomId = req.params.roomId;
-  connection.query('SELECT * FROM conv WHERE id_conv = ?', [roomId], (error, results, fields) => {
-    if (error) {
-      console.error('Erreur lors de la récupération des rooms depuis la base de données :', error);
-      res.status(500).json({ error: 'Erreur lors de la récupération des rooms' });
-    } else {
-      res.json(results);
-    }
-  });
-});
-
-app.get('/messages/:roomId', (req, res) => {
-  const roomId = req.params.roomId;
-  connection.query('SELECT * FROM message WHERE id_conv = ?', [roomId], (error, results, fields) => {
-    if (error) {
-      console.error('Erreur lors de la récupération des messages depuis la base de données :', error);
-      res.status(500).json({ error: 'Erreur lors de la récupération des messages' });
-    } else {
-      res.json(results);
-    } 
-  });
-});
-
-app.get('/closed-room', (req, res) => {
-  connection.query('SELECT * FROM conv WHERE conv_status = 1', (error, results, fields) => {
-    if (error) {
-      console.error('Erreur lors de la récupération des rooms depuis la base de données :', error);
-      res.status(500).json({ error: 'Erreur lors de la récupération des rooms' });
-    } else {
-      res.json(results);
-    }
-  });
-});
-
-
-app.post('/messages', (req, res) => {
-  const { roomId, message } = req.body;
-  connection.query('INSERT INTO message (id_conv, message_content) VALUES (?, ?)', [roomId, message], (error, results, fields) => {
-    if (error) {
-      console.error('Erreur lors de l\'enregistrement du message dans la base de données :', error);
-      res.status(500).json({ error: 'Erreur lors de l\'enregistrement du message' });
-    } else {
-      res.json({ message: 'Message enregistré avec succès' });
-    }
-  });
-});
 
 
 const CHAT_BOT = 'ChatBot';
