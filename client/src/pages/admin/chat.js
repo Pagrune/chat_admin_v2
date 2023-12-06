@@ -49,14 +49,24 @@ const AdminChat = ({ username, room, rubrique, titleConv, socket }) => {
     return <div>Loading...</div>;
   } else {
     return (
-      <div>
+      <div className='admin-body'>
         <Header />
-        <h2>Sujet conversation : {Conv[0].conv_title} </h2>
-        <div>
-          <MessagesAdmin socket={socket} room={room} />
-          <SendMessageAdmin socket={socket} username={username} room={room} rubrique={rubrique} />
+        <div className='container'>
+          <div className='flex'>
+            <div className='flex title'>
+              <div className='circle green'></div>
+              <h2>Sujet conversation : {Conv[0].conv_title} </h2>
+              
+            </div>
+            <button id="close-conv">Fermer la conversation</button>
+          </div>
+          
+          <div>
+            <MessagesAdmin socket={socket} room={room} />
+            <SendMessageAdmin socket={socket} username={username} room={room} rubrique={rubrique} />
+          </div>
+          
         </div>
-        <button id="close-conv">Fermer la conversation</button>
       </div>
     );
   }

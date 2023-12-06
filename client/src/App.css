@@ -1,5 +1,99 @@
+@import url('https://fonts.googleapis.com/css2?family=Kalam&display=swap');
+
 .App {
   text-align: center;
+}
+
+.admin-body{
+  background: radial-gradient( farthest-corner at 1200px 600px,#F6CC8C, #EA515F );
+  min-height: 100vh;
+}
+
+.container{
+  width: 80%;
+  margin: 0 auto;
+  background-color: #D9D9D9;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+h1{
+  font-family: 'Kalam', cursive;
+  font-size: 3rem;
+  /* text-shadow: 0 0 10px #000; */
+}
+
+h2{
+  font-family: 'Kalam', cursive;
+  font-size: 2rem;
+  /* text-shadow: 0 0 10px #000; */
+}
+
+.flex{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header .menu_navigation{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 10%;
+  height: 10vh;
+  font-family: 'Kalam', cursive;
+  font-size: 1.5rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+.header .menu_navigation a{
+  text-decoration: none;
+  font-family: 'Kalam', cursive;
+  font-size: 1.5rem;
+  color: #fff;
+}
+
+.admin-home-button{
+  display: flex;
+  justify-content: space-around;
+}
+
+button{
+  background-color: #EA515F;
+  border: none;
+  border-radius: 12px;
+  padding: 10px 20px;
+  font-family: 'Kalam', cursive;
+  font-size: 1.5rem;
+  color: #fff;
+  cursor: pointer;
+}
+
+button:hover{
+  background-color: #F6CC8C;
+  color: #000;
+}
+
+.circle.green {
+  background: radial-gradient(circle, #fff, #329d00);
+  background-size: 90% 90%;
+  /* background-repeat: no-repeat; */
+  height: 24px;
+  width: 24px;
+  border-radius: 100%;
+  box-shadow: 0 2px 5px #000;
+}
+
+.admin-body input{
+  width: 50%;
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: none;
+}
+
+.flex.title h2{
+  padding-left: 12px;
 }
 
 .App-logo {

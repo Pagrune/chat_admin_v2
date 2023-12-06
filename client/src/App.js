@@ -8,6 +8,12 @@ import AdminPage from './pages/admin';
 import AdminChat from './pages/admin/chat';
 // import axios from 'axios';
 import AdminClosedChat from './pages/admin/closed-id';
+import AdminConvOpen from './pages/admin/conv-open';
+import AdminConvClosed from './pages/admin/conv-closed';
+
+//import style App.css
+import './App.css';
+
 
 const socket = io.connect('http://localhost:4000'); // Add this -- our server will run on port 4000, so we connect to it from here
 
@@ -61,6 +67,14 @@ function App() {
             <Route
               path='/admin'
               element={<AdminPage username={username} setUsername={setUsername} room={room} setRoom={setRoom} rubrique={rubrique} titleConv={titleConv} socket={socket} />}
+            />
+            <Route
+              path='/admin/conv-open'
+              element={<AdminConvOpen username={username} setUsername={setUsername} room={room} setRoom={setRoom} rubrique={rubrique} titleConv={titleConv} socket={socket} />}
+            />
+            <Route
+              path='/admin/conv-closed'
+              element={<AdminConvClosed username={username} setUsername={setUsername} room={room} setRoom={setRoom} rubrique={rubrique} titleConv={titleConv} socket={socket} />}
             />
             <Route path='/admin/chat' element={<AdminChat username={username} room={room} rubrique={rubrique} titleConv={titleConv} socket={socket} />} />
             <Route path='/admin/closed-id' element={<AdminClosedChat  socket={socket} />} />

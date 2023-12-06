@@ -48,25 +48,25 @@
     };
 
     return (
-      <div>
+      <div className='admin-body'>
         <Header />
-        <h1>Admin Page</h1>
-        <div>
-          <h2>Rooms</h2>
-          <h3>Conversations en cours</h3>
-
-            {rooms.map(room => (
-              <div key={room.id_conv} onClick={() => handleRoomClick(room.id_conv, room.conv_title, room.conv_status)}>
-                {room.conv_title}
-              </div>
-            ))}
-
-          <h3>Conversations fermées</h3>
-            {closedRooms.map(closedRoom => (
-              <div key={closedRoom.id_conv} onClick={() => handleRoomClosedClick(closedRoom.id_conv, closedRoom.conv_title, closedRoom.conv_status)}>
-                {closedRoom.conv_title}
-              </div>
-            ))}
+        <div className='container'>
+          <h1>Bienvenue sur la page principale d’administration du chat </h1>
+          <div>
+            <p>Voir les conversations :</p>
+            <div className='admin-home-button'>
+              <button onClick={() => navigate('/admin/conv-open', { replace: true })}>Conversations en cours</button>
+              <button onClick={() => navigate('/admin/conv-closed', { replace: true })}>Conversations fermées</button>
+            </div>
+            
+            <h2>Rooms</h2>
+            <h3>Conversations fermées</h3>
+              {closedRooms.map(closedRoom => (
+                <div key={closedRoom.id_conv} onClick={() => handleRoomClosedClick(closedRoom.id_conv, closedRoom.conv_title, closedRoom.conv_status)}>
+                  {closedRoom.conv_title}
+                </div>
+              ))}
+          </div>
         </div>
       </div>
     );

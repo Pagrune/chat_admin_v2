@@ -40,7 +40,7 @@ const AdminClosedChat = ({ socket }) => {
   }
 
   return (
-    <div>
+    <div className='admin-body'>
       <Header />
       <h2>Sujet conversation : {convTitle}</h2>
       <div className="vieux_messages">

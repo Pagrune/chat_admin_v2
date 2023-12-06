@@ -18,12 +18,9 @@ const Header = () => {
         <div className='header'>
             <nav className='menu_navigation'>
                 <a href='/admin'>Page accueil administration</a>
-                {sujets.map(sujet => (
-                    <p key={sujet.id_sujet} value={sujet.id_sujet}>{sujet.sujet_rubrique}</p>
-                ))}
-                <ul>
-                {/* Additional menu items can be added here */}
-                </ul>
+                <a href='/admin/conv-open'>Conversations en cours</a>
+                <a href='/admin/conv-closed'>Conversations fermées</a>
+               
             </nav>
         </div>
     );
