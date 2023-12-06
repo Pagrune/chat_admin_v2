@@ -42,19 +42,35 @@ const AdminClosedChat = ({ socket }) => {
   return (
     <div className='admin-body'>
       <Header />
+      <div className='container'>
       <h2>Sujet conversation : {convTitle}</h2>
       <div className="vieux_messages">
-        {messagesDB.map((msg, i) => (
-          <div key={i}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+      {messagesDB.map((msg, i) => (
+        msg.id_user == '99' ? (
+          <div key={i} className='message-admin'>
+            <div className='flex align-right'>
+              <span>{formatDateFromTimestamp(msg.message_date)}</span>
+            </div>
+            <div>
+              <p className='msg admin'>{msg.message_content}</p>
+            </div>
+            <br />
+          </div>
+        ) : (
+          <div key={i} className='message-client'>
+            <div className='flex'>
               <span>{msg.id_user}</span>
               <span>{formatDateFromTimestamp(msg.message_date)}</span>
             </div>
-            <p>{msg.message_content}</p>
+            <div>
+              <p className="msg client">{msg.message_content}</p>
+            </div>
             <br />
           </div>
-        ))}
+        )
+      ))}
       </div>
+    </div>
     </div>
   );
 };

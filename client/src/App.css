@@ -17,6 +17,24 @@
   padding: 20px;
 }
 
+.block{
+  padding: 20px;
+  height: 50vh;
+  overflow-y: scroll;
+}
+
+.half{
+  width: 50%;
+  margin :0 auto;  
+}
+
+.grid3{
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-gap: 20px;
+  margin: 20px 0;
+}
+
 h1{
   font-family: 'Kalam', cursive;
   font-size: 3rem;
@@ -33,6 +51,10 @@ h2{
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.align-right span{
+  margin-left: auto;
 }
 
 .header .menu_navigation{
@@ -94,6 +116,30 @@ button:hover{
 
 .flex.title h2{
   padding-left: 12px;
+}
+
+.message-admin{
+  width: 66%;
+  margin-left: auto;
+}
+
+.message-client{
+  width: 66%;
+  margin-right: auto;
+}
+
+.msg{
+  padding: 10px 20px;
+  border-radius: 12px;
+  margin: 10px 0;
+}
+
+.msg.admin{
+  background-color: #E89796;
+}
+
+.msg.client{
+  background-color: #F6CC8C;
 }
 
 .App-logo {

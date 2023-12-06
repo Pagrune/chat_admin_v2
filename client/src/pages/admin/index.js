@@ -59,13 +59,6 @@
               <button onClick={() => navigate('/admin/conv-closed', { replace: true })}>Conversations fermées</button>
             </div>
             
-            <h2>Rooms</h2>
-            <h3>Conversations fermées</h3>
-              {closedRooms.map(closedRoom => (
-                <div key={closedRoom.id_conv} onClick={() => handleRoomClosedClick(closedRoom.id_conv, closedRoom.conv_title, closedRoom.conv_status)}>
-                  {closedRoom.conv_title}
-                </div>
-              ))}
           </div>
         </div>
       </div>

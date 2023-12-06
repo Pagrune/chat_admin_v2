@@ -53,33 +53,60 @@ const MessagesAdmin = ({ socket, room }) => {
   }
 
   return (
-    <div>
+    <div className='block'>
       <div className="vieux_messages">
-        {messagesDB.map((msg, i) => (
-          <div key={i}>
-            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-              <span>{msg.id_user}</span>
-              <span>
-                {formatDateFromTimestamp(msg.message_date)}
-              </span>
+      {messagesDB.map((msg, i) => (
+        msg.id_user == '99' ? (
+          <div key={i} className='message-admin'>
+            <div className='flex align-right'>
+              <span>{formatDateFromTimestamp(msg.message_date)}</span>
             </div>
-            <p>{msg.message_content}</p>
+            <div>
+              <p className='msg admin'>{msg.message_content}</p>
+            </div>
             <br />
           </div>
-        ))}
-      </div>
-      {messagesReceived.map((msg, i) => (
-        <div key={i}>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span>{msg.username}</span>
-            <span>
-              {formatDateFromTimestamp(msg.__createdtime__)}
-            </span>
+        ) : (
+          <div key={i} className='message-client'>
+            <div className='flex'>
+              <span>{msg.id_user}</span>
+              <span>{formatDateFromTimestamp(msg.message_date)}</span>
+            </div>
+            <div>
+              <p className="msg client">{msg.message_content}</p>
+            </div>
+            <br />
           </div>
-          <p>{msg.message}</p>
-          <br />
-        </div>
+        )
       ))}
+      </div>
+      <div className="nouveaux_messages">
+      {messagesReceived.map((msg, i) => (
+          msg.username === '99' ? (
+            <div key={i}className='message-admin'>
+              <div className='flex align-right'>
+                <span>{formatDateFromTimestamp(msg.__createdtime__)}</span>
+              </div>
+              <div>
+                <p className='msg admin'>{msg.message}</p>
+              </div>
+              <br />
+            </div>
+          ) : (
+            <div className='message-client'>
+              <div className='flex'>
+                <span>{msg.username}</span>
+                <span>{formatDateFromTimestamp(msg.__createdtime__)}</span>
+              </div>
+              <div>
+                <p className="msg client">{msg.message}</p>
+              </div>
+              <br />
+            </div>
+          )
+
+      ))}
+    </div>
     </div>
   );
 };
