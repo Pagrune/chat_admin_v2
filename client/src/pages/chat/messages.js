@@ -28,7 +28,7 @@ const Messages = ({ socket }) => {
   }
 
   return (
-    <div className='block client' >
+    <div className='block client'>
       {messagesRecieved.map((msg, i) => (
         msg.username === '99' ? (
           <div key={i} className='message-admin'>
@@ -40,8 +40,20 @@ const Messages = ({ socket }) => {
             </div>
             <br />
           </div>
+        ) : msg.username == 'ChatBot' ? (
+          <div key={i} className='message-chatbot'>
+            {/* Ajoute ici le contenu spécifique pour le ChatBot */}
+            <div className='flex'>
+              <span>{msg.username}</span>
+              <span>{formatDateFromTimestamp(msg.__createdtime__)}</span>
+            </div>
+            <div>
+              <p className="msg chatbot">{msg.message}</p>
+            </div>
+            <br />
+          </div>
         ) : (
-          <div className='message-client fromclient'>
+          <div key={i} className='message-client fromclient'>
             <div className='flex'>
               <span>{msg.username}</span>
               <span>{formatDateFromTimestamp(msg.__createdtime__)}</span>
@@ -54,7 +66,7 @@ const Messages = ({ socket }) => {
         )
       ))}
     </div>
-  );
+  );  
 };
 
 export default Messages;
