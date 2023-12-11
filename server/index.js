@@ -64,7 +64,7 @@ io.on('connection', (socket) => {
           });
           // Send welcome msg to the user that just joined chat only
           socket.emit('receive_message', {
-              message: `Welcome ${username}`,
+              message: `Un conseiller va vous répondre dans quelques instants`,
               rubrique: `${rubrique}`,
               username: CHAT_BOT,
               __createdtime__,

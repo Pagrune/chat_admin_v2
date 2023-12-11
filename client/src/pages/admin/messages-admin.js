@@ -83,7 +83,7 @@ const MessagesAdmin = ({ socket, room }) => {
       <div className="nouveaux_messages">
       {messagesReceived.map((msg, i) => (
           msg.username === '99' ? (
-            <div key={i}className='message-admin'>
+            <div key={i} className='message-admin'>
               <div className='flex align-right'>
                 <span>{formatDateFromTimestamp(msg.__createdtime__)}</span>
               </div>

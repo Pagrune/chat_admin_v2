@@ -4,6 +4,42 @@
   text-align: center;
 }
 
+.le-fond{
+  background: radial-gradient( farthest-corner at 1200px 600px,#F6CC8C, #EA515F );
+  min-height: 100vh;
+  position: relative;
+}
+
+.icone{
+  background-color: #EA515F;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 100%;
+  padding: 10px;
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  cursor: pointer;
+}
+
+.le-chat{
+  display: none;
+  position: fixed;
+  bottom: 120px;
+  right: 40px;
+  width: 500px;
+  background-color: #F6CC8C;
+  padding: 20px;
+  border-radius: 20px;
+}
+
+.le-chat.open{
+  display: block;
+}
+
 .admin-body{
   background: radial-gradient( farthest-corner at 1200px 600px,#F6CC8C, #EA515F );
   min-height: 100vh;
@@ -21,6 +57,10 @@
   padding: 20px;
   height: 50vh;
   overflow-y: scroll;
+}
+
+.block.client{
+  height: 30vh;
 }
 
 .half{
@@ -126,6 +166,10 @@ button:hover{
 .message-client{
   width: 66%;
   margin-right: auto;
+}
+
+.message-client.fromclient .msg.client{
+  background-color: #fff;
 }
 
 .msg{

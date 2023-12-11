@@ -28,18 +28,30 @@ const Messages = ({ socket }) => {
   }
 
   return (
-    <div >
+    <div className='block client' >
       {messagesRecieved.map((msg, i) => (
-        <div  key={i}>
-          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <span>{msg.username}</span>
-            <span >
-              {formatDateFromTimestamp(msg.__createdtime__)}
-            </span>
+        msg.username === '99' ? (
+          <div key={i} className='message-admin'>
+            <div className='flex align-right'>
+              <span>{formatDateFromTimestamp(msg.__createdtime__)}</span>
+            </div>
+            <div>
+              <p className='msg admin'>{msg.message}</p>
+            </div>
+            <br />
           </div>
-          <p >{msg.message}</p>
-          <br />
-        </div>
+        ) : (
+          <div className='message-client fromclient'>
+            <div className='flex'>
+              <span>{msg.username}</span>
+              <span>{formatDateFromTimestamp(msg.__createdtime__)}</span>
+            </div>
+            <div>
+              <p className="msg client">{msg.message}</p>
+            </div>
+            <br />
+          </div>
+        )
       ))}
     </div>
   );

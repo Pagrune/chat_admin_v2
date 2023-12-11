@@ -2,6 +2,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import icon from '../../img/chat/icon_message.png';
+
 
 const Home = ({ username, setUsername, rubrique, setRubrique, titleConv, setTitleConv, socket}) => {
 
@@ -29,10 +31,16 @@ const Home = ({ username, setUsername, rubrique, setRubrique, titleConv, setTitl
         navigate('/chat', { replace: true });
       };
 
+      const openChat = () => {
+        document.querySelector('.le-chat').classList.toggle('open');
+      };
+
   return (
-    <div>
-      <div>
-        <h1>{`<>DevRooms</>`}</h1>
+    <div className='le-fond'>
+      <div className='icone'  onClick={openChat}><img src={icon}></img></div>
+      <div className='le-chat open'>
+        <h1>Bienvenue sur le chat </h1>
+        <p> Nos conseillers sont joignables de 9h à 12h & de 14h à 16h</p>
         <input onChange={(e) => setUsername('1')} placeholder='Username...' />
 
         <select onChange={(e) => setRubrique(e.target.value)}>

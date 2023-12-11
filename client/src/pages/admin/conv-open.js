@@ -8,6 +8,7 @@ const AdminConvOpen = ({ username, setUsername, room, setRoom, rubrique, setRubr
   const navigate = useNavigate();
   const [rooms, setRooms] = useState([]);
   const [sujets, setSujets] = useState([]);
+  const [selectedSujet, setSelectedSujet] = useState(null);
 
   useEffect(() => {
     axios.get('http://localhost:4000/rooms')
@@ -40,6 +41,10 @@ const AdminConvOpen = ({ username, setUsername, room, setRoom, rubrique, setRubr
       navigate('/admin/chat', { replace: true });  
   };
 
+  const handleSujetClick = (sujetId) => {
+    setSelectedSujet(sujetId);
+  };
+
   return (
     <div className='admin-body'>
         <Header />
@@ -48,7 +53,7 @@ const AdminConvOpen = ({ username, setUsername, room, setRoom, rubrique, setRubr
           <div className='flex half'>
             <p>Filtrer par :</p>
             {sujets.map(sujet => (
-                  <button key={sujet.id_sujet}>{sujet.sujet_rubrique}</button>
+                  <button key={sujet.id_sujet} onClick={() => handleSujetClick(sujet.id_sujet)}>{sujet.sujet_rubrique}</button>
               ))}
           </div>
           <div className='grid3'>
