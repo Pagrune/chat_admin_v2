@@ -45,8 +45,8 @@ const AdminConvClosed = ({ username, setUsername, room, setRoom, rubrique, setRu
   };
 
   const handleSujetClick = (sujetId) => {
-    setSelectedSujet(sujetId);
-    // document.querySelectorAll('button').classList.toggle('selected');
+    // Si le même sujet est cliqué à nouveau, désélectionne
+    setSelectedSujet((prevSelected) => (prevSelected === sujetId ? "" : sujetId));
   };
 
   return (
@@ -55,28 +55,16 @@ const AdminConvClosed = ({ username, setUsername, room, setRoom, rubrique, setRu
       <div className='container'>
           <h1>Conversations fermées</h1>
           <div className='flex half'>
-          <p>Filtrer par :</p>
-            {selectedSujet !== "" ? (
-              sujets.map(sujet => (
-                <button
-                  key={sujet.id_sujet}
-                  onClick={() => handleSujetClick(sujet.id_sujet)}
-                  className={sujet.id_sujet === selectedSujet ? 'selected' : ''}
-                >
-                  {sujet.sujet_rubrique}
-                </button>
-              ))
-            ) : (
-              sujets.map(sujet => (
-                <button
-                  key={sujet.id_sujet}
-                  onClick={() => handleSujetClick(sujet.id_sujet)}
-                  className={sujet.id_sujet === selectedSujet ? 'selected' : ''}
-                >
-                  {sujet.sujet_rubrique}
-                </button>
-              ))
-            )}
+            <p>Filtrer par :</p>
+            {sujets.map(sujet => (
+              <button
+                key={sujet.id_sujet}
+                onClick={() => handleSujetClick(sujet.id_sujet)}
+                className={sujet.id_sujet === selectedSujet ? 'selected' : ''}
+              >
+                {sujet.sujet_rubrique}
+              </button>
+            ))}
           </div>
           <div className='grid3'>
             {selectedSujet !== "" ? (
