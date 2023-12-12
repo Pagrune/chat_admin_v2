@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import MessagesAdmin from './messages-admin';
 import SendMessageAdmin from './send-message-admin';
 import axios from 'axios';
@@ -7,12 +8,14 @@ import { set } from 'date-fns';
 
 const AdminChat = ({ username, room, rubrique, titleConv, socket }) => {
   const [convData, setConvData] = useState([]);
-
+  const navigate = useNavigate();
 
   console.log('room =' + room);
   const closeConvHandler = () => {
     socket.emit('close_conv');
     console.log('close conv');
+    document.querySelector('#close-conv').style.display = 'none';
+    navigate('/admin/conv-closed', { replace: true })
     setConvData([]); // Efface les données de la conversation pour déclencher le rendu de chargement
   };
 
@@ -20,6 +23,7 @@ const AdminChat = ({ username, room, rubrique, titleConv, socket }) => {
     const closeConvButton = document.querySelector('#close-conv');
     if (closeConvButton) {
       closeConvButton.addEventListener('click', closeConvHandler);
+      
     }
 
     return () => {
