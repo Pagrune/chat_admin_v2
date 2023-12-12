@@ -132,6 +132,11 @@ button{
   cursor: pointer;
 }
 
+.selected{
+  background-color: #F6CC8C;
+  color: #000;
+}
+
 button:hover{
   background-color: #F6CC8C;
   color: #000;

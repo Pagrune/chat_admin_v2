@@ -8,7 +8,7 @@ const AdminConvOpen = ({ username, setUsername, room, setRoom, rubrique, setRubr
   const navigate = useNavigate();
   const [rooms, setRooms] = useState([]);
   const [sujets, setSujets] = useState([]);
-  const [selectedSujet, setSelectedSujet] = useState(null);
+  const [selectedSujet, setSelectedSujet] = useState("");
 
   useEffect(() => {
     axios.get('http://localhost:4000/rooms')
@@ -43,7 +43,10 @@ const AdminConvOpen = ({ username, setUsername, room, setRoom, rubrique, setRubr
 
   const handleSujetClick = (sujetId) => {
     setSelectedSujet(sujetId);
+    // document.querySelectorAll('button').classList.toggle('selected');
   };
+
+  // console.log('sujet :'+ selectedSujet);
 
   return (
     <div className='admin-body'>
@@ -52,16 +55,44 @@ const AdminConvOpen = ({ username, setUsername, room, setRoom, rubrique, setRubr
           <h1>Conversations en cours</h1>
           <div className='flex half'>
             <p>Filtrer par :</p>
-            {sujets.map(sujet => (
-                  <button key={sujet.id_sujet} onClick={() => handleSujetClick(sujet.id_sujet)}>{sujet.sujet_rubrique}</button>
-              ))}
+            {selectedSujet !== "" ? (
+              sujets.map(sujet => (
+                <button
+                  key={sujet.id_sujet}
+                  onClick={() => handleSujetClick(sujet.id_sujet)}
+                  className={sujet.id_sujet === selectedSujet ? 'selected' : ''}
+                >
+                  {sujet.sujet_rubrique}
+                </button>
+              ))
+            ) : (
+              sujets.map(sujet => (
+                <button
+                  key={sujet.id_sujet}
+                  onClick={() => handleSujetClick(sujet.id_sujet)}
+                  className={sujet.id_sujet === selectedSujet ? 'selected' : ''}
+                >
+                  {sujet.sujet_rubrique}
+                </button>
+              ))
+            )}
           </div>
           <div className='grid3'>
-            {rooms.map(room => (
-              <div key={room.id_conv} onClick={() => handleRoomClick(room.id_conv, room.conv_title, room.conv_status)}>
-                {room.conv_title}
-              </div>
-            ))}
+            {
+              selectedSujet !== "" ? (
+                rooms.filter(room => room.id_sujet == selectedSujet).map(room => (
+                  <div key={room.id_conv} onClick={() => handleRoomClick(room.id_conv, room.conv_title, room.conv_status)}>
+                    {room.conv_title}
+                  </div>
+                ))
+              ) : (
+                rooms.map(room => (
+                  <div key={room.id_conv} onClick={() => handleRoomClick(room.id_conv, room.conv_title, room.conv_status)}>
+                    {room.conv_title}
+                  </div>
+                ))
+              )
+            }
           </div>
         </div>
     </div>
