@@ -16,12 +16,14 @@ const mysql = require('mysql');
 
 router.get('/', (req, res) => {
   res.send('Hello world');
+  console.log(req.cookies);
 });
 
 router.get('/sujet', (req, res) => {
     connection.query('SELECT * FROM sujet', (error, results, fields) => {
       if (error) throw error;
       res.json(results);
+      console.log(req.cookies);
     });
 });
 

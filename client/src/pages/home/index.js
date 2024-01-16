@@ -5,7 +5,7 @@ import axios from 'axios';
 import icon from '../../img/chat/icon_message.png';
 
 
-const Home = ({ username, setUsername, rubrique, setRubrique, titleConv, setTitleConv, socket}) => {
+const Home = ({ token,username, setUsername, rubrique, setRubrique, titleConv, setTitleConv, socket}) => {
 
     const navigate = useNavigate();
 
@@ -13,6 +13,7 @@ const Home = ({ username, setUsername, rubrique, setRubrique, titleConv, setTitl
 
 
     useEffect(() => {
+        // axios.defaults.withCredentials = true
         axios.get('http://localhost:4000/sujet')
             .then(response => {
                 setSujets(response.data);
@@ -23,8 +24,8 @@ const Home = ({ username, setUsername, rubrique, setRubrique, titleConv, setTitl
     }, []);
 
     const joinRoom = () => {
-        if (username !== '' && rubrique !== '' && titleConv !== '') {
-          socket.emit('join_room', { username, rubrique , titleConv });
+        if (rubrique !== '' && titleConv !== '') {
+          socket.emit('join_room', { token , rubrique , titleConv });
         }
 
         // Redirect to /chat
