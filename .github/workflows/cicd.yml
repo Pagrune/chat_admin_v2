@@ -47,6 +47,9 @@ jobs:
           switches: -avzr --delete
           remote_path: /var/www/html/chat/
           remote_host: anthony-kalbe.fr
+          remote_user: sftpuser
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          
       
       - name: Upload with rsync
         run: |
