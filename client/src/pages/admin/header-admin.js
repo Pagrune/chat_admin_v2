@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const Header = () => {
+const Header = ({token}) => {
+    console.log('token = '+ token);
     const [sujets, setSujets] = useState([]);
-
     useEffect(() => {
-        axios.get('http://localhost:4000/sujet')
+        axios.get('http://localhost:4000/sujet', { headers: { Authorization: 'Bearer ' + token }})
             .then(response => {
                 setSujets(response.data);
             })

@@ -2,22 +2,21 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Header from './header-admin';
-import { set } from 'date-fns';
 
-const AdminConvOpen = ({ username, setUsername, room, setRoom, rubrique, setRubrique, titleConv, setTitleConv, socket }) => {
+const AdminConvOpen = ({ username, setUsername,token, room, setRoom, rubrique, setRubrique, titleConv, setTitleConv, socket }) => {
   const navigate = useNavigate();
   const [rooms, setRooms] = useState([]);
   const [sujets, setSujets] = useState([]);
   const [selectedSujet, setSelectedSujet] = useState("");
 
   useEffect(() => {
-    axios.get('http://localhost:4000/rooms')
+    axios.get('http://localhost:4000/rooms', { headers: { Authorization: 'Bearer ' + token }})
       .then(response => setRooms(response.data))
       .catch(error => console.error('Erreur lors de la récupération des rooms :', error));
   }, []); // Ajout du tableau de dépendances vide
 
   useEffect(() => {
-    axios.get('http://localhost:4000/sujet')
+    axios.get('http://localhost:4000/sujet',  { headers: { Authorization: 'Bearer ' + token }})
         .then(response => {
             setSujets(response.data);
         })
@@ -36,9 +35,10 @@ const AdminConvOpen = ({ username, setUsername, room, setRoom, rubrique, setRubr
         socket.emit('join_room_admin', { username, rubrique, titleConv, roomId });
         setRoom(roomId);
       }
-    
+
       // Redirect to /admin/chat
-      navigate('/admin/chat', { replace: true });  
+      navigate('/admin/chat', { replace: true });
+
   };
 
   const handleSujetClick = (sujetId) => {
@@ -49,7 +49,7 @@ const AdminConvOpen = ({ username, setUsername, room, setRoom, rubrique, setRubr
 
   return (
     <div className='admin-body'>
-        <Header />
+        <Header token={token}/>
         <div className='container'>
           <h1>Conversations en cours</h1>
           <div className='flex half'>
@@ -67,7 +67,7 @@ const AdminConvOpen = ({ username, setUsername, room, setRoom, rubrique, setRubr
           <div className='grid3'>
             {
               selectedSujet !== "" ? (
-                rooms.filter(room => room.id_sujet == selectedSujet).map(room => (
+                rooms.filter(room => room.id_sujet === selectedSujet).map(room => (
                   <div key={room.id_conv} onClick={() => handleRoomClick(room.id_conv, room.conv_title, room.conv_status)}>
                     {room.conv_title}
                   </div>

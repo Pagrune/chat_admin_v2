@@ -4,9 +4,8 @@ import MessagesAdmin from './messages-admin';
 import SendMessageAdmin from './send-message-admin';
 import axios from 'axios';
 import Header from './header-admin';
-import { set } from 'date-fns';
 
-const AdminChat = ({ username, room, rubrique, titleConv, socket }) => {
+const AdminChat = ({ username, room, token, rubrique, titleConv, socket }) => {
   const [convData, setConvData] = useState([]);
   const navigate = useNavigate();
 
@@ -36,7 +35,7 @@ const AdminChat = ({ username, room, rubrique, titleConv, socket }) => {
   const [Conv, setConv] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/rooms/${room}`)
+    axios.get(`http://localhost:4000/rooms/${room}`, { headers: { Authorization: 'Bearer ' + token }})
       .then(response => {
         setConv(response.data);
         console.log('la petite conv =', response.data);
@@ -46,7 +45,7 @@ const AdminChat = ({ username, room, rubrique, titleConv, socket }) => {
       });
   }, [room]); // Ajout de room comme dépendance
 
-  console.log(Conv);
+  console.log(token);
 
   //loader
   if (Conv.length === 0) {
@@ -54,7 +53,7 @@ const AdminChat = ({ username, room, rubrique, titleConv, socket }) => {
   } else {
     return (
       <div className='admin-body'>
-        <Header />
+        <Header token={token}/>
         <div className='container'>
           <div className='flex'>
             <div className='flex title'>
@@ -66,8 +65,8 @@ const AdminChat = ({ username, room, rubrique, titleConv, socket }) => {
           </div>
           
           <div>
-            <MessagesAdmin socket={socket} room={room} />
-            <SendMessageAdmin socket={socket} username={username} room={room} rubrique={rubrique} />
+            <MessagesAdmin socket={socket} token={token} room={room} />
+            <SendMessageAdmin socket={socket} token={token} username={username} room={room} rubrique={rubrique} />
           </div>
           
         </div>

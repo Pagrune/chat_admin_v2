@@ -6,25 +6,25 @@ const JWT_SIGN_SECRET_ADMIN = process.env.JWT_SIGN_SECRET_ADMIN;
 
 
 
-function checkIsLogin (token , isAdmin=false){
-    if(isAdmin){
-        if(jwt.verify(token, JWT_SIGN_SECRET_ADMIN)){
-            return jwt.verify(token, JWT_SIGN_SECRET_ADMIN);
-        }
-        else{
-            return false;
-        }  
+function CheckIsLogin(token){  
+    try{
+        return jwt.verify(token, 'pouet');  
     }
-    else{
-        if(jwt.verify(token, JWT_SIGN_SECRET)){
-            return jwt.verify(token, JWT_SIGN_SECRET);
-        }
-        else{
-            return false;
-        }   
-
+    catch (err){
+        return false;
     }
 }
 
+function getPayloadData(token){
+    try{
+        return jwt.decode(token);
+    }
+    catch (err){
+        return false;
+    }
+}
 
-module.exports = checkIsLogin;
+module.exports = {
+    CheckIsLogin,
+    getPayloadData,
+}

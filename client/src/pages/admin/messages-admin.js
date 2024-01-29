@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 
-const MessagesAdmin = ({ socket, room }) => {
+const MessagesAdmin = ({ socket, room, token }) => {
   const [messagesReceived, setMessagesReceived] = useState([]);
   const [messagesDB, setMessagesDB] = useState([]);
 
@@ -14,7 +14,7 @@ const MessagesAdmin = ({ socket, room }) => {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:4000/messages/${room}`)
+      .get(`http://localhost:4000/messages/${room}`, { headers: { Authorization: 'Bearer ' + token }})
       .then((res) => {
         console.log('messages conversation '+res.data);
         setMessagesDB(res.data);
