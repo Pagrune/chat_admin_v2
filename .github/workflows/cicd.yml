@@ -28,15 +28,31 @@ jobs:
         env:
           CI: false
 
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -t rsa HOSTNAME >> ~/.ssh/known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          HOSTNAME: anthony-kalbe.fr
+
+      
+      
+
       - name: Deploy with rsync
         uses: burnett01/rsync-deployments@6.0.0 
-        with:
-          switches: -avzr --delete
-          path: ./client/build/
-          remote_path: /var/www/html/chat
-          remote_host: anthony-kalbe.fr
-          remote_user: root
-          remote_key: AAAAB3NzaC1yc2EAAAADAQABAAABAQCzLm+dHNm9ZzNz4ldaKhbJjrPoahQlp/FNT7wYcKF6zV30rTB8Oz6tooojEXgsIioR8KqGs7PxqIX30xxsoII0LNZqQDvcm4xBo6zzPX/gSkmaantzbjeLR7hT08eUXFoERNAMs3Aa1P4N5V752oj70Fol+AIHY0kLd8rFsO7we9n9taTXXRNjWUjFSVYQCKpuUAwQ67IYklvp0HbLwtR8r8zNo8ksFGAZN4BTRjPiWF704tiZBdJyUe/Ycgirbwyl/kAonUPR/wX5KEeWc6vbTVwR6CHkW5NdPd1d92BXB6VpSy9724q8prh4P3164JxdaWCW/PYT99NcrDcwW0VL
+      
+      - name: Upload with rsync
+        run: |
+          rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./client/build/ sftpuser@anthony-kalbe.fr:/var/www/html/chat/
+
+
+          
+
+          
+
         
         
 
