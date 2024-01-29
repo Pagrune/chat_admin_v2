@@ -104,6 +104,14 @@ io.on('connection', (socket) => {
       }
   });
 
+//   socket.on('disconnect_from_all_rooms', () => {
+//     socket.rooms.forEach((roomId) => {
+//         if (roomId !== socket.id) { // Assurez-vous de ne pas quitter la salle par défaut qui est celle du socket lui-même
+//             socket.leave(roomId);
+//         }
+//     });
+//     console.log(`Socket ${socket.id} has left all rooms`);
+// });
   socket.on('join_room_admin', (data) => {
     const { rubrique, titleConv, roomId } = data; // Include roomId in the destructuring
     const username = 'admin';
@@ -136,10 +144,26 @@ io.on('connection', (socket) => {
         const room = roomId;
          // Save the new user to the room
          chatRoom = roomId;
-         allUsers.push({ id: socket.id, username, room, rubrique });
-         chatRoomUsers = allUsers.filter((user) => user.room === room);
-         socket.to(room).emit('chatroom_users', chatRoomUsers);
-         socket.emit('chatroom_users', chatRoomUsers);
+        //  allUsers.push({ id: socket.id, username, room, rubrique });
+        //  chatRoomUsers = allUsers.filter((user) => user.room === room);
+        //  socket.to(room).emit('chatroom_users', chatRoomUsers);
+        //  socket.emit('chatroom_users', chatRoomUsers);
+
+        
+          // Clear socket send_message event listener
+          socket.removeAllListeners('send_message');
+          // Join the user to a socket room
+         socket.on('send_message', (data) => {
+          const { message,username, __createdtime__ } = data;
+          const admin ="1";
+          console.log('username' + username);
+          //broadcast message to all users in the room
+          socket.to(room).emit('receive_message', { ...data, room }); // Send to all users in the room, including the sender
+          socket.emit('receive_message', { ...data, room }); // Send to all users in the room, including the sender
+          enregistrerMessageAdmin(message, username, __createdtime__, room, admin) // Save the message in the database
+            .then((response) => console.log(response))
+            .catch((err) => console.log(err));
+        });
 
          socket.on('close_conv', () => {
           const roomId = room;
@@ -149,18 +173,7 @@ io.on('connection', (socket) => {
             .catch((err) => console.log(err));
         });
 
-         socket.on('send_message', (data) => {
-           const { message,username, __createdtime__ } = data;
-           const admin ="1";
-          //  console.log(message, username, __createdtime__, room, admin)
-          //  console.log(message);
-          //  console.log('username' + username);
-           socket.to(room).emit('receive_message', { ...data, room }); // Send to all users in the room, including the sender
-           socket.emit('receive_message', { ...data, room }); // Send to all users in the room, including the sender
-           enregistrerMessageAdmin(message, username, __createdtime__, room, admin) // Save the message in the database
-             .then((response) => console.log(response))
-             .catch((err) => console.log(err));
-         });
+         
   });
  
   socket.on('room_closed_clicked', (data) => {

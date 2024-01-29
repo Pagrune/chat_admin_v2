@@ -25,6 +25,10 @@ const AdminConvOpen = ({ username, setUsername,token, room, setRoom, rubrique, s
         });
 }, []);
 
+  useEffect(() => {
+    socket.emit('disconnect_from_all_rooms');
+  }, []); // Ajout du tableau de dépendances vide
+
   const handleRoomClick = (roomId) => {
     const titleConv = room.conv_title;
     const username = '99';
