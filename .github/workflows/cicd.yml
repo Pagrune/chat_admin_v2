@@ -28,32 +28,42 @@ jobs:
         env:
           CI: false
 
-      - name: Configure SSH
-        run: |
-          mkdir -p ~/.ssh
-          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          ssh-keyscan -t rsa anthony-kalbe.fr >> ~/.ssh/known_hosts
+      - name: deploy rsync to server
+        uses: Pendect/action-rsyncer@v1.1.0
         env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          HOSTNAME: anthony-kalbe.fr
-
-      
-      
-
-      - name: Deploy with rsync
-        uses: burnett01/rsync-deployments@6.0.0 
+          DEPLOY_KEY: -----BEGIN OPENSSH PRIVATE KEY-----
+            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
+            -----END OPENSSH PRIVATE KEY-----
+            
         with:
-          switches: -avzr --delete
-          remote_path: /var/www/html/chat/
-          remote_host: anthony-kalbe.fr
-          remote_user: sftpuser
-
-      
-      - name: Upload with rsync
-        run: |
-          rsync -avz -e "ssh -o StrictHostKeyChecking=no" ./client/build/ sftpuser@anthony-kalbe.fr:/var/www/html/chat/
-
+            flags: '-zvr'
+            options: '-O'
+            src: 'dist'
+            dest: 'anthony@iutmulhouse.fr:/var/www/html/chat'
 
           
 
