@@ -30,12 +30,14 @@ const Home = ({ token,username, setUsername, rubrique, setRubrique, titleConv, s
     },[token]) ;
 
     const joinRoom = () => {
-        if (rubrique !== '' && titleConv !== '') {
+        if ((rubrique === '1' || rubrique === '2') && titleConv !== '') {
           socket.emit('join_room', { token , rubrique , titleConv });
+          // Redirect to /chat
+          navigate('/chat', { replace: true });
         }
-
-        // Redirect to /chat
-        navigate('/chat', { replace: true });
+        else{
+          alert('Veuillez remplir tous les champs');
+        }
       };
 
       const openChat = () => {
@@ -43,35 +45,35 @@ const Home = ({ token,username, setUsername, rubrique, setRubrique, titleConv, s
       };
 
   return (
-
     <div className='le-fond'>
-      <div className='icone'  onClick={openChat}><img src={icon}></img></div>
-      <div className='le-chat open'>
-        <h1>Bienvenue sur le chat </h1>
-        <p> Nos conseillers sont joignables de 9h à 12h & de 14h à 16h</p>
-        <input onChange={(e) => setUsername('1')} placeholder='Username...' />
-
-        <select onChange={(e) => setRubrique(e.target.value)}>
-            <option>-- Sélectionnez un sujet --</option>
-            
+      <div className='icone' onClick={openChat}><img src={icon} alt="Chat icon" /></div>
+      <div className={`le-chat ${token ? 'open' : ''}`}>
+        {token ? (
+          <>
+            <h1>Bienvenue sur le chat </h1>
+            <p>Nos conseillers sont joignables de 9h à 12h & de 14h à 16h</p>
+            <select onChange={(e) => setRubrique(e.target.value)}>
+              <option>-- Sélectionnez un sujet --</option>
               {sujets.map(sujet => (
                 <option key={sujet.id_sujet} value={sujet.id_sujet}>{sujet.sujet_rubrique}</option>
               ))}
-
-        </select>
-
-        <input onChange={(e) => setTitleConv(e.target.value)} placeholder='Sujet de votre demande' />
-
-        <button
-          className='btn btn-secondary'
-          style={{ width: '100%' }}
-          onClick={joinRoom}
-        >
-          Join Room
-        </button>
+            </select>
+            <input onChange={(e) => setTitleConv(e.target.value)} placeholder='Sujet de votre demande' />
+            <button
+              className='btn btn-secondary'
+              style={{ width: '100%' }}
+              onClick={joinRoom}
+            >
+              Envoyer votre demande
+            </button>
+          </>
+        ) : (
+          <p>Connectez-vous pour accéder au chat.</p>
+        )}
       </div>
     </div>
   );
-};
+}
+
 
 export default Home;
