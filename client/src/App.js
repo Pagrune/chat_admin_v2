@@ -17,21 +17,6 @@ import './App.css';
 // Add this -- our server will run on port 4000, so we connect to it from here
 //configuration de l'envoie des cookies avec les sockets
 
-
-function Comp() {
-  const [x, setX] = useState(0);
-
-  
-
-  const onClick = () => {
-    console.log(x);
-    setX(x + 1);
-
-    alert("vous avez cliqué sur le bouton " + (x) + " fois");
-  };
-  return <button onClick={onClick}>{x}</button>;
-}
-
 function App() {
   const [token, setToken] = useState('');
   const [username, setUsername] = useState('');
