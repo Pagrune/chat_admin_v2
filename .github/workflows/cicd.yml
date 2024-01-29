@@ -62,8 +62,8 @@ jobs:
         with:
             flags: '-zvr'
             options: '-O'
-            src: 'dist'
-            dest: 'anthony@iutmulhouse.fr:/var/www/html/chat'
+            src: './client/build/'
+            dest: 'anthony@anthony-kalbe.fr:/var/www/html/chat'
 
           
 
