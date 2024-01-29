@@ -11,12 +11,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Use Node.js from package.json
-        run: |
-          NODE_VERSION=18.17.1
-          echo "Using Node.js version $NODE_VERSION"
-          setup-node/setup-node@v3:
-            node-version: $NODE_VERSION
+      - name: installing NodeJS
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
 
       - name: Install Dependencies
         run: npm install
