@@ -8,6 +8,7 @@ const SendMessageAdmin = ({ socket, username, room}) => {
     if (message !== '') {
       const __createdtime__ = Date.now();
       const username ='99';
+      console.log("send admin message");
       // Send message to server. We can't specify who we send the message to from the frontend. We can only send to server. Server can then send message to rest of users in room
       socket.emit('send_message', { username, message, room, __createdtime__ });
       setMessage('');

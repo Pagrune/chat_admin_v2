@@ -14,65 +14,84 @@ import AdminConvClosed from './pages/admin/conv-closed';
 //import style App.css
 import './App.css';
 
- // Add this -- our server will run on port 4000, so we connect to it from here
+// Add this -- our server will run on port 4000, so we connect to it from here
 //configuration de l'envoie des cookies avec les sockets
 
 
+function Comp() {
+  const [x, setX] = useState(0);
+
+  
+
+  const onClick = () => {
+    console.log(x);
+    setX(x + 1);
+
+    alert("vous avez cliqué sur le bouton " + (x) + " fois");
+  };
+  return <button onClick={onClick}>{x}</button>;
+}
+
 function App() {
   const [token, setToken] = useState('');
-  const [username, setUsername] = useState(''); 
-  const [room, setRoom] = useState(''); 
+  const [username, setUsername] = useState('');
+  const [room, setRoom] = useState('');
   const [rubrique, setRubrique] = useState('');
   const [titleConv, setTitleConv] = useState('');
+  const [socket, setSocket] = useState();
   // const [isLogin, setIsLogin] = useState(true);
 
   //Récupération du cookie mutconnex dans le state token
-  useEffect (() => {
-    if(document.cookie.split(';').find(row => row.startsWith('mutconnex='))){
-      setToken(document.cookie.split(';').find(row => row.startsWith('mutconnex=')).split('=')[1]);
+  useEffect(() => {
+    if (document.cookie.split(';').find(row => row.startsWith('mutconnex='))) {
+      const newToken = document.cookie.split(';').find(row => row.startsWith('mutconnex=')).split('=')[1];
+      setToken(newToken);
+      setSocket(io('http://localhost:4000', {
+        extraHeaders: {
+          Authorization: "Bearer " + newToken,
+        }
+      }
+      ));
     }
   }, []);
 
-    // console.log(token);
-// 
-  const socket = io.connect('http://localhost:4000',{
-    extraHeaders: {
-      Authorization: "Bearer " + token,
-    }
-  }
-);
   // console.log(token);
-    return (
-      <Router>
-        <div className='App'>
-          <Routes>
-            <Route path='/'
-              element={<Home token={token} username={username} setUsername={setUsername} room={room} setRoom={setRoom} rubrique={rubrique} setRubrique={setRubrique} titleConv={titleConv} setTitleConv={setTitleConv} socket={socket} 
-                />
-              }
+  // 
+
+  if (!socket) return 'att frr';
+
+  // console.log(token);
+  return (
+    <Router>
+      <div className='App'>
+        <Routes>
+          <Route path='/'
+            element={<Home token={token} username={username} setUsername={setUsername} room={room} setRoom={setRoom} rubrique={rubrique} setRubrique={setRubrique} titleConv={titleConv} setTitleConv={setTitleConv} socket={socket}
             />
-            <Route
-              path='/chat'
-              element={<Chat token={token} username={username} room={room} rubrique={rubrique} titleConv={titleConv} socket={socket} />}
-            />
-            <Route
-              path='/admin'
-              element={<AdminPage token={token} username={username} setUsername={setUsername} room={room} setRoom={setRoom} rubrique={rubrique} titleConv={titleConv} socket={socket} />}
-            />
-            <Route
-              path='/admin/conv-open'
-              element={<AdminConvOpen token={token} username={username} setUsername={setUsername} room={room} setRoom={setRoom} rubrique={rubrique} titleConv={titleConv} socket={socket} />}
-            />
-            <Route
-              path='/admin/conv-closed'
-              element={<AdminConvClosed token={token} username={username} setUsername={setUsername} room={room} setRoom={setRoom} rubrique={rubrique} titleConv={titleConv} socket={socket} />}
-            />
-            <Route path='/admin/chat'  element={<AdminChat token={token} username={username} room={room} rubrique={rubrique} titleConv={titleConv} socket={socket} />} />
-            <Route path='/admin/closed-id' element={<AdminClosedChat  token={token} socket={socket} />} />
-          </Routes>
-        </div>
-      </Router>
-    );
+            }
+          />
+          <Route
+            path='/chat'
+            element={<Chat token={token} username={username} room={room} rubrique={rubrique} titleConv={titleConv} socket={socket} />}
+          />
+          <Route
+            path='/admin'
+            element={<AdminPage token={token} username={username} setUsername={setUsername} room={room} setRoom={setRoom} rubrique={rubrique} titleConv={titleConv} socket={socket} />}
+          />
+          <Route
+            path='/admin/conv-open'
+            element={<AdminConvOpen token={token} username={username} setUsername={setUsername} room={room} setRoom={setRoom} rubrique={rubrique} titleConv={titleConv} socket={socket} />}
+          />
+          <Route
+            path='/admin/conv-closed'
+            element={<AdminConvClosed token={token} username={username} setUsername={setUsername} room={room} setRoom={setRoom} rubrique={rubrique} titleConv={titleConv} socket={socket} />}
+          />
+          <Route path='/admin/chat' element={<AdminChat token={token} username={username} room={room} rubrique={rubrique} titleConv={titleConv} socket={socket} />} />
+          <Route path='/admin/closed-id' element={<AdminClosedChat token={token} socket={socket} />} />
+        </Routes>
+      </div>
+    </Router>
+  );
   // }
 }
 
