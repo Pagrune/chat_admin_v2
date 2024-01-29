@@ -13,7 +13,7 @@ jobs:
 
       - name: Use Node.js from package.json
         run: |
-          NODE_VERSION=$(node -pe "require('./package.json').engines.node")
+          NODE_VERSION=$(cat package.json | jq -r '.engines.node')
           echo "Using Node.js version $NODE_VERSION"
           setup-node/setup-node@v3:
             node-version: $NODE_VERSION
