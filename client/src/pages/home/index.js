@@ -10,18 +10,24 @@ const Home = ({ token,username, setUsername, rubrique, setRubrique, titleConv, s
     const navigate = useNavigate();
 
     const [sujets, setSujets] = useState([]);
+    const [isLoading, setisLoading] = useState(true);  
 
-
+    console.log(token);
     useEffect(() => {
-        // axios.defaults.withCredentials = true
-        axios.get('http://localhost:4000/sujet')
+      console.log(token);
+      if(token){
+        console.log('dans if' +token);
+        axios.get('http://localhost:4000/sujet', { headers: { Authorization: 'Bearer ' + token}})
             .then(response => {
                 setSujets(response.data);
+                setisLoading(false);
             })
             .catch(error => {
                 console.error("Erreur lors de la récupération des sujets:", error);
             });
-    }, []);
+          }
+         
+    },[token]) ;
 
     const joinRoom = () => {
         if (rubrique !== '' && titleConv !== '') {
@@ -37,6 +43,7 @@ const Home = ({ token,username, setUsername, rubrique, setRubrique, titleConv, s
       };
 
   return (
+
     <div className='le-fond'>
       <div className='icone'  onClick={openChat}><img src={icon}></img></div>
       <div className='le-chat open'>
@@ -46,9 +53,10 @@ const Home = ({ token,username, setUsername, rubrique, setRubrique, titleConv, s
 
         <select onChange={(e) => setRubrique(e.target.value)}>
             <option>-- Sélectionnez un sujet --</option>
-            {sujets.map(sujet => (
+            
+              {sujets.map(sujet => (
                 <option key={sujet.id_sujet} value={sujet.id_sujet}>{sujet.sujet_rubrique}</option>
-            ))}
+              ))}
 
         </select>
 

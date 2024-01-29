@@ -10,17 +10,9 @@ const mysql = require('mysql');
 const CreateConv = require('./services/Create-conv');
 const updateConv = require('./services/Update-conv');
 const showMessage = require('./services/Show-message');
-const cookieParser = require("cookie-parser");
 const login = require('./services/Login');
 
-app.use(cors(
-  {
-    credentials: true
-  }
-)); // Add cors middleware
-
-
-app.use(cookieParser());
+app.use(cors()); // Add cors middleware
 
 const server = http.createServer(app);
 
@@ -29,7 +21,6 @@ const io = new Server(server, {
       origin: 'http://localhost:3000',
       methods: ['GET', 'POST'],
     },
-    cookie : true
   });
 
 // routes
@@ -52,106 +43,91 @@ let allUsers = []; // All users in current chat room
 // Listen for when the client connects via socket.io-client
 
 
+// //authentication using header of the socket
+io.use((socket, next) => {
+  const token = socket.handshake.headers.authorization.split(' ')[1] ? socket.handshake.headers.authorization.split(' ')[1] : null;
+  // console.log(token);
+  if (login.CheckIsLogin(token)) {
+    next();
+  } else {
+    next(new Error('Authentication error'));
+  }
+});
 
 io.on('connection', (socket) => {
-  // console.log(`User connected ${socket.id}`);
-  console.log(socket.handshake.headers);
+  console.log(`User connected ${socket.id}`);
 
   socket.on('join_room', async (data) => {
-    const { token, rubrique, titleConv  } = data; // Include roomId in the destructuring
-    const username = login.checkIsLogin(token);
-    if(username !=false ){
+    const { username, rubrique, titleConv  } = data; // Include roomId in the destructuring
+    console.log(data);
+  
+    try {
+          // Utilisez 'await' pour attendre que la conversation soit créée
+          const room = await CreateConv(rubrique, titleConv);
 
-      const user_data = login.getPayloadData(token);
-      let user_id = user_data.id_customer
-      try {
-            // Utilisez 'await' pour attendre que la conversation soit créée
-            const room = await CreateConv(rubrique, titleConv);
+          // console.log(room);
+          socket.join(room); // Join the user to a socket room
 
-            // console.log(room);
-            socket.join(room); // Join the user to a socket room
+          let __createdtime__ = Date.now();
+          // Send message to all users currently in the room, apart from the user that just joined
+          socket.to(room).emit('receive_message', {
+              message: `${username} has joined the chat room`,
+              username: CHAT_BOT,
+              __createdtime__,
+          });
+          // Send welcome msg to the user that just joined chat only
+          socket.emit('receive_message', {
+              message: `Un conseiller va vous répondre dans quelques instants`,
+              rubrique: `${rubrique}`,
+              username: CHAT_BOT,
+              __createdtime__,
+          });
 
-            let __createdtime__ = Date.now();
-            // Send message to all users currently in the room, apart from the user that just joined
-            socket.to(room).emit('receive_message', {
-                message: `${user_data.name_customer} has joined the chat room`,
-                username: CHAT_BOT,
-                __createdtime__,
-            });
-            // Send welcome msg to the user that just joined chat only
-            socket.emit('receive_message', {
-                message: `Un conseiller va vous répondre dans quelques instants`,
-                rubrique: `${rubrique}`,
-                username: CHAT_BOT,
-                __createdtime__,
-            });
+          // Save the new user to the room
+          chatRoom = room;
+          allUsers.push({ id: socket.id, username, room, rubrique });
+          chatRoomUsers = allUsers.filter((user) => user.room === room);
+          socket.to(room).emit('chatroom_users', chatRoomUsers);
+          socket.emit('chatroom_users', chatRoomUsers);
 
-            // Save the new user to the room
-            chatRoom = room;
-            ;
-            allUsers.push({ id: socket.id, user_id, room, rubrique });
-            chatRoomUsers = allUsers.filter((user) => user.room === room);
-            socket.to(room).emit('chatroom_users', chatRoomUsers);
-            socket.emit('chatroom_users', chatRoomUsers);
-
-            socket.on('send_message', (data) => {
-              const { message, __createdtime__ } = data;
-              console.log(data);
-              io.in(room).emit('receive_message', { ...data, room }); // Send to all users in the room, including the sender
-              enregistrerMessage(message, user_id, __createdtime__, room) // Save the message in the database
-                .then((response) => console.log(response))
-                .catch((err) => console.log(err));
-            });
-          
-        } catch (error) {
-            console.error('Error creating conversation:', error);
-        }
-    }
-    else{
-      let __createdtime__ = Date.now();
-      socket.emit('receive_message', {
-        message: `Erreur d'authentification`,
-        rubrique: `Erreur d'authentification`,
-        username: CHAT_BOT,
-       __createdtime__,
-    });
-
-    }
+          socket.on('send_message', (data) => {
+            const { message, username, __createdtime__ } = data;
+            console.log(data);
+            io.in(room).emit('receive_message', { ...data, room }); // Send to all users in the room, including the sender
+            enregistrerMessage(message, username, __createdtime__, room) // Save the message in the database
+              .then((response) => console.log(response))
+              .catch((err) => console.log(err));
+          });
+        
+      } catch (error) {
+          console.error('Error creating conversation:', error);
+      }
   });
 
-
-
-
-
-  // Admin qui rejoint le chat
   socket.on('join_room_admin', (data) => {
-    const { username, rubrique, titleConv, roomId } = data; // Include roomId in the destructuring
-    console.log(data);
+    const { rubrique, titleConv, roomId } = data; // Include roomId in the destructuring
+    const username = 'admin';
+    console.log('salut les pd');
 
+    console.log(roomId);
     socket.join(roomId); // Join the user to a socket room
-    let __createdtime__ = Date.now();
-  if (login.checkIsLogin(token, true)){
+  
+        let __createdtime__ = Date.now();
 
-      const user_data = login.getPayloadData(token);
-      let user_id = user_data.id_customer
+
 
         socket.to(roomId).emit('receive_message', {
           message: `Un conseiller a rejoins le chat`,
           username: CHAT_BOT,
           __createdtime__,
       });
-        // Send welcome msg to the user that just joined chat only
-        socket.emit('receive_message', {
-          message: `Welcome ${user_data.name_customer}`,
-          rubrique: `${rubrique}`,
-          username: CHAT_BOT,
-          __createdtime__,
-        });
-
+      
+        // console.log(socket);
         //show messages
         socket.emit('show_message', (data) => {
           const { room } = data; // Include roomId in the destructuring
-          console.log(data);
+          console.log("salut les gars");
+          console.log(room);
           showMessage(room) // 
             .then((response) => console.log(response))
             .catch((err) => console.log(err));
@@ -160,7 +136,7 @@ io.on('connection', (socket) => {
         const room = roomId;
          // Save the new user to the room
          chatRoom = roomId;
-         allUsers.push({ id: socket.id, user_id, room, rubrique });
+         allUsers.push({ id: socket.id, username, room, rubrique });
          chatRoomUsers = allUsers.filter((user) => user.room === room);
          socket.to(room).emit('chatroom_users', chatRoomUsers);
          socket.emit('chatroom_users', chatRoomUsers);
@@ -174,23 +150,17 @@ io.on('connection', (socket) => {
         });
 
          socket.on('send_message', (data) => {
-           const { message, username, __createdtime__ } = data;
+           const { message,username, __createdtime__ } = data;
            const admin ="1";
-           console.log(data);
-           io.in(room).emit('receive_message', { ...data, room }); // Send to all users in the room, including the sender
-           enregistrerMessageAdmin(message, user_data.name_customer, __createdtime__, room, admin) // Save the message in the database
+          //  console.log(message, username, __createdtime__, room, admin)
+          //  console.log(message);
+          //  console.log('username' + username);
+           socket.to(room).emit('receive_message', { ...data, room }); // Send to all users in the room, including the sender
+           socket.emit('receive_message', { ...data, room }); // Send to all users in the room, including the sender
+           enregistrerMessageAdmin(message, username, __createdtime__, room, admin) // Save the message in the database
              .then((response) => console.log(response))
              .catch((err) => console.log(err));
          });
-        }
-        else{
-          socket.emit('receive_message', {
-            message: `ERREUR D'AUTHENTIFICATION`,
-            rubrique: `Error`,
-            username: CHAT_BOT,
-            __createdtime__,
-          });
-        }
   });
  
   socket.on('room_closed_clicked', (data) => {

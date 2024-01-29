@@ -3,7 +3,6 @@ const router = express.Router();
 const mysql = require('mysql');
 const login = require('../services/Login');
 const { el } = require('date-fns/locale');
-
  // MySQL Connection
  const connection = mysql.createConnection({
     host: process.env.BDD_HOST,
@@ -20,12 +19,11 @@ router.get('/', (req, res) => {
 });
 
 router.get('/sujet', (req, res) => {
-  console.log(req.headers);
+  console.log(req.headers.authorization.split(' ')[1]);
   if(login.CheckIsLogin(req.headers.authorization.split(' ')[1])){
     connection.query('SELECT * FROM sujet', (error, results, fields) => {
       if (error) throw error;
       res.json(results);
-      console.log(req.cookies);
     });
   }
   else{
@@ -55,7 +53,7 @@ router.get('/rooms', (req, res) => {
 
   // Afficher toutes les informations d'une conversation précise
   router.get('/rooms/:roomId', (req, res) => {
-    if(login.checkIsLogin(req.headers.authorization.split(' ')[1])){
+    if(login.CheckIsLogin(req.headers.authorization.split(' ')[1])){
     const roomId = req.params.roomId;
     connection.query('SELECT * FROM conv WHERE id_conv = ?', [roomId], (error, results, fields) => {
       if (error) {

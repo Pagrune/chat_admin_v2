@@ -14,12 +14,7 @@ import AdminConvClosed from './pages/admin/conv-closed';
 //import style App.css
 import './App.css';
 
-const socket = io.connect('http://localhost:4000',{
-    extraHeaders: {
-      Authorization: "Bearer authorization_token_here"
-    }
-  }
-); // Add this -- our server will run on port 4000, so we connect to it from here
+ // Add this -- our server will run on port 4000, so we connect to it from here
 //configuration de l'envoie des cookies avec les sockets
 
 
@@ -38,25 +33,21 @@ function App() {
     }
   }, []);
 
-  console.log(token);
+    // console.log(token);
+// 
+  const socket = io.connect('http://localhost:4000',{
+    extraHeaders: {
+      Authorization: "Bearer " + token,
+    }
+  }
+);
+  // console.log(token);
     return (
       <Router>
         <div className='App'>
           <Routes>
-            <Route
-              path='/'
-              element={
-                <Home
-                  token={token}
-                  username={username} 
-                  setUsername={setUsername} 
-                  room={room} 
-                  setRoom={setRoom} 
-                  rubrique={rubrique}
-                  setRubrique={setRubrique}
-                  titleConv={titleConv}
-                  setTitleConv={setTitleConv}
-                  socket={socket} 
+            <Route path='/'
+              element={<Home token={token} username={username} setUsername={setUsername} room={room} setRoom={setRoom} rubrique={rubrique} setRubrique={setRubrique} titleConv={titleConv} setTitleConv={setTitleConv} socket={socket} 
                 />
               }
             />

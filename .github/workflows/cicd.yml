@@ -1,0 +1,45 @@
+name: CI/CD production
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  Deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Use Node.js from package.json
+        run: |
+          NODE_VERSION=$(node -pe "require('./package.json').engines.node")
+          echo "Using Node.js version $NODE_VERSION"
+          setup-node/setup-node@v3:
+            node-version: $NODE_VERSION
+
+      - name: Install Dependencies
+        run: npm install
+        working-directory: ./client
+
+      - name: Building the App
+        run: npm run build
+        working-directory: ./client
+
+      - name: Deploy my code to my server
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+            server: anthony-kalbe.fr
+            username: sftpuser
+            password: ${{ secrets.sftpuserpwd }}
+            local-dir: ./client/build/
+            server-dir: ./var/www/html/chat/client/
+
+
+
+
+
+
+            
+
+            

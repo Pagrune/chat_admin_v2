@@ -1,8 +1,7 @@
   import React, { useState, useEffect } from 'react';
   import { useNavigate } from 'react-router-dom';
   import axios from 'axios';
-  import Header from './header-admin';
-
+  import Header from './header-admin';   
   const AdminPage = ({ username, setUsername,token, room, setRoom, rubrique, setRubrique, titleConv, setTitleConv, socket }) => {
     const navigate = useNavigate();
     const [rooms, setRooms] = useState([]);
@@ -15,15 +14,15 @@
           setClosedRooms(response.data);
         })
         .catch(error => {
-          console.error("Erreur lors de la récupération des conversations fermées", error);
+         return
         });
-    }, []); // Ajout du tableau de dépendances vide
+    }, [token]); // Ajout du tableau de dépendances vide
 
     useEffect(() => {
       axios.get('http://localhost:4000/rooms', { headers: { Authorization: 'Bearer ' + token }})
         .then(response => setRooms(response.data))
-        .catch(error => console.error('Erreur lors de la récupération des rooms :', error));
-    }, []); // Ajout du tableau de dépendances vide
+        .catch(error => {return});
+    }, [token]); // Ajout du tableau de dépendances vide
 
     const handleRoomClick = (roomId) => {
       const titleConv = room.conv_title;
