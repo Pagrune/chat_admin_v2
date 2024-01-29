@@ -28,14 +28,17 @@ jobs:
         env:
           CI: false
 
-      - name: Deploy my code to my server
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      - name: Deploy with rsync
+        uses: burnett01/rsync-deployments@4.1.0
         with:
-            server: anthony-kalbe.fr
-            username: sftpuser
-            password: ${{ secrets.sftpuserpwd }}
-            local-dir: ./client/build/
-            server-dir: ./var/www/html/chat/client/
+          switches: -avzr --delete
+          path: ./client/build/
+          remote_path: /var/www/html/chat
+          remote_host: anthony-kalbe.fr
+          remote_user: root
+          remote_key: AAAAB3NzaC1yc2EAAAADAQABAAABAQCzLm+dHNm9ZzNz4ldaKhbJjrPoahQlp/FNT7wYcKF6zV30rTB8Oz6tooojEXgsIioR8KqGs7PxqIX30xxsoII0LNZqQDvcm4xBo6zzPX/gSkmaantzbjeLR7hT08eUXFoERNAMs3Aa1P4N5V752oj70Fol+AIHY0kLd8rFsO7we9n9taTXXRNjWUjFSVYQCKpuUAwQ67IYklvp0HbLwtR8r8zNo8ksFGAZN4BTRjPiWF704tiZBdJyUe/Ycgirbwyl/kAonUPR/wX5KEeWc6vbTVwR6CHkW5NdPd1d92BXB6VpSy9724q8prh4P3164JxdaWCW/PYT99NcrDcwW0VL
+        
+        
 
 
 
