@@ -43,6 +43,10 @@ jobs:
 
       - name: Deploy with rsync
         uses: burnett01/rsync-deployments@6.0.0 
+        with:
+          switches: -avzr --delete
+          remote_path: /var/www/html/chat/
+          remote_host: anthony-kalbe.fr
       
       - name: Upload with rsync
         run: |
