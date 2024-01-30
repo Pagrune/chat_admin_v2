@@ -169,6 +169,7 @@ io.on('connection', (socket) => {
 
         socket.on('close_conv', () => {
           console.log('salutations' + roomId);
+          socket.removeAllListeners('send_message');
           socket.to(room).emit('close_conv');  // Émettre l'événement seulement lorsque vous avez l'intention de fermer la conversation
           updateConv(room)
               .then((response) => console.log(response))
