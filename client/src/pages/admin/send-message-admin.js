@@ -5,7 +5,7 @@ const SendMessageAdmin = ({ socket, username, room}) => {
 
   console.log(username);
   const sentMessage = () => {
-    if (message !== '') {
+    if (message !== '') { 
       const __createdtime__ = Date.now();
       const username ='99';
       console.log("send admin message");
