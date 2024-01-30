@@ -5,7 +5,7 @@
 }
 
 .le-fond{
-  background: radial-gradient( farthest-corner at 1200px 600px,#F6CC8C, #EA515F );
+  background: rgba(255, 255, 255, 0);
   min-height: 100vh;
   position: relative;
 }
