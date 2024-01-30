@@ -163,6 +163,10 @@ button:hover{
   padding-left: 12px;
 }
 
+.reconnect .message-client .msg.client{
+  background-color: #fff;
+}
+
 .message-admin{
   width: 66%;
   margin-left: auto;

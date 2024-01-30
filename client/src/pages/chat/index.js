@@ -12,10 +12,13 @@ const Chat = ({ username, room, rubrique, token, titleConv, socket }) => {
     document.querySelector('.le-chat').classList.toggle('open');
   };
 
+
   useEffect(() => {
     // Écoute l'événement 'close_conv' venant du serveur
     socket.on('close_conv', () => {
       navigate('/', { replace: true });
+      // clear local storage
+      localStorage.removeItem('conv_open');
     });
 
     // Supprime l'écouteur d'événement lors du démontage du composant
