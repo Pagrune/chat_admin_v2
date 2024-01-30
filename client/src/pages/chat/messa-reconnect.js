@@ -9,7 +9,7 @@ const MessagesReconnect = ({ socket, room, token }) => {
 
   // Charger les messages de la base de données
   useEffect(() => {
-    axios.get(`http://localhost:4000/messages/${room}`, { 
+    axios.get(`https://anthony-kalbe.fr/chat/messages/${room}`, { 
       headers: { Authorization: 'Bearer ' + token }
     })
     .then((res) => {
