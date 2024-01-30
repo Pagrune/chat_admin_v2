@@ -168,6 +168,7 @@ io.on('connection', (socket) => {
          socket.on('close_conv', () => {
           const roomId = room;
           console.log('salutations'+roomId);
+          socket.to(roomId).emit('close_conv');
           updateConv(room) // Save the message in the database
             .then((response) => console.log(response))
             .catch((err) => console.log(err));
@@ -178,7 +179,8 @@ io.on('connection', (socket) => {
  
   socket.on('room_closed_clicked', (data) => {
     socket.emit('room_closed_clicked', data);
-    // console.log('Room closed clicked:', data);
+    socket.to(data.room).emit('room_closed_clicked', data);
+    console.log('Room closed clicked:', data);
   });
   
 });
