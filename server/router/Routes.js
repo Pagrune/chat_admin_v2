@@ -14,12 +14,17 @@ const { el } = require('date-fns/locale');
   connection.connect();
 
 
-router.get('/', (req, res) => {
-  res.send(login.CheckIsLogin(req.headers.authorization.split(' ')[1]));
+router.get('/chat/', (req, res) => {
+  if(login.CheckIsLogin(req.headers.authorization.split(' ')[1])){
+    res.send(login.CheckIsLogin(req.headers.authorization.split(' ')[1]));
+  }
+  else{
+    res.status(506).json({ error: 'Vous n\'avez pas les droits pour accéder à cette page' });
+  }
+  
 });
 
-router.get('/sujet', (req, res) => {
-  console.log(req.headers.authorization.split(' ')[1]);
+router.get('/chat/sujet', (req, res) => {
   if(login.CheckIsLogin(req.headers.authorization.split(' ')[1])){
     connection.query('SELECT * FROM sujet', (error, results, fields) => {
       if (error) throw error;
@@ -33,7 +38,7 @@ router.get('/sujet', (req, res) => {
 
 
 // Afficher toutes les conversations qui sont ouvertes
-router.get('/rooms', (req, res) => {
+router.get('/chat/rooms', (req, res) => {
   if(login.CheckIsLogin(req.headers.authorization.split(' ')[1])){
     connection.query('SELECT * FROM conv WHERE conv_status = 0', (error, results, fields) => {
       if (error) {
@@ -52,7 +57,7 @@ router.get('/rooms', (req, res) => {
   });
 
   // Afficher toutes les informations d'une conversation précise
-  router.get('/rooms/:roomId', (req, res) => {
+  router.get('/chat/rooms/:roomId', (req, res) => {
     if(login.CheckIsLogin(req.headers.authorization.split(' ')[1])){
     const roomId = req.params.roomId;
     connection.query('SELECT * FROM conv WHERE id_conv = ?', [roomId], (error, results, fields) => {
@@ -69,7 +74,7 @@ router.get('/rooms', (req, res) => {
   });
 
   // Afficher toutes les conversations qui sont fermées
-  router.get('/closed-room', (req, res) => {
+  router.get('/chat/closed-room', (req, res) => {
     if(login.CheckIsLogin(req.headers.authorization.split(' ')[1])){
     connection.query('SELECT * FROM conv WHERE conv_status = 1', (error, results, fields) => {
       if (error) {
@@ -86,7 +91,7 @@ router.get('/rooms', (req, res) => {
   });
 
   // Récupérer tous les messages d'une conversation
-  router.get('/messages/:roomId', (req, res) => {
+  router.get('/chat/messages/:roomId', (req, res) => {
     if(login.CheckIsLogin(req.headers.authorization.split(' ')[1])){
     const roomId = req.params.roomId;
     connection.query('SELECT * FROM message WHERE id_conv = ?', [roomId], (error, results, fields) => {
@@ -104,7 +109,7 @@ router.get('/rooms', (req, res) => {
   });
 
   // Enregistrer un message dans la base de données
-  router.post('/messages', (req, res) => {
+  router.post('/chat/messages', (req, res) => {
     if(login.CheckIsLogin(req.headers.authorization.split(' ')[1])){
     const { roomId, message } = req.body;
     connection.query('INSERT INTO message (id_conv, message_content) VALUES (?, ?)', [roomId, message], (error, results, fields) => {
