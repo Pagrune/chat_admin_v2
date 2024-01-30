@@ -52,7 +52,7 @@ const Home = ({ token,username, setUsername, rubrique, setRubrique, titleConv, s
           localStorage.setItem('conv_open', JSON.stringify(convData));
 
           // Rediriger vers /chat
-          navigate('/chat', { replace: true });
+          navigate('/fchat/chat', { replace: true });
         });
       }
       else{

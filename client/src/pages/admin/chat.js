@@ -14,7 +14,7 @@ const AdminChat = ({ username, room, token, rubrique, titleConv, socket }) => {
     socket.emit('close_conv');
     console.log('close conv');
     document.querySelector('#close-conv').style.display = 'none';
-    navigate('/admin/conv-closed', { replace: true })
+    navigate('/fchat/admin/conv-closed', { replace: true })
     setConvData([]); // Efface les données de la conversation pour déclencher le rendu de chargement
   };
 

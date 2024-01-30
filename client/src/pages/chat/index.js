@@ -16,7 +16,7 @@ const Chat = ({ username, room, rubrique, token, titleConv, socket }) => {
   useEffect(() => {
     // Écoute l'événement 'close_conv' venant du serveur
     socket.on('close_conv', () => {
-      navigate('/', { replace: true });
+      navigate('/fchat/', { replace: true });
       // clear local storage
       localStorage.removeItem('conv_open');
     });

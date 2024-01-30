@@ -53,8 +53,8 @@
           <div>
             <p>Voir les conversations :</p>
             <div className='admin-home-button'>
-              <button onClick={() => navigate('/admin/conv-open', { replace: true })}>Conversations en cours</button>
-              <button onClick={() => navigate('/admin/conv-closed', { replace: true })}>Conversations fermées</button>
+              <button onClick={() => navigate('/fchat/admin/conv-open', { replace: true })}>Conversations en cours</button>
+              <button onClick={() => navigate('/fchat/admin/conv-closed', { replace: true })}>Conversations fermées</button>
             </div>
             
           </div>

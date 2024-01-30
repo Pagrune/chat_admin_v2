@@ -15,7 +15,7 @@ const Reconnect = ({ socket }) => {
   // if localStorage is empty, redirect to home
   useEffect(() => {
     if (!convData || !convData.room || !convData.token) {
-      navigate('/', { replace: true });
+      navigate('/fchat/', { replace: true });
     }
   }, [navigate, convData]);
 
@@ -41,7 +41,7 @@ const Reconnect = ({ socket }) => {
     // Écoute l'événement 'close_conv' venant du serveur
     if (socket) {
       const closeConvHandler = () => {
-        navigate('/', { replace: true });
+        navigate('/fchat/', { replace: true });
         localStorage.removeItem('conv_open');
       };
 
