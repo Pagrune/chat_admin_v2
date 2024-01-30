@@ -34,7 +34,7 @@ function App() {
     if (document.cookie.split(';').find(row => row.startsWith('mutconnex='))) {
       const newToken = document.cookie.split(';').find(row => row.startsWith('mutconnex=')).split('=')[1];
       setToken(newToken);
-      setSocket(io('https://anthony-kalbe.fr/chat', {
+      setSocket(io('https://serverchat.anthony-kalbe.fr/', {
         extraHeaders: {
           Authorization: "Bearer " + newToken,
         }

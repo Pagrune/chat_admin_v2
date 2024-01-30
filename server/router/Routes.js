@@ -14,7 +14,7 @@ const { el } = require('date-fns/locale');
   connection.connect();
 
 
-router.get('/chat/', (req, res) => {
+router.get('/', (req, res) => {
   if(req.headers.authorization){
     if(login.CheckIsLogin(req.headers.authorization)){
       res.send(login.CheckIsLogin(req.headers.authorization.split(' ')[1]));
@@ -28,7 +28,7 @@ router.get('/chat/', (req, res) => {
   }
 });
 
-router.get('/chat/sujet', (req, res) => {
+router.get('/sujet', (req, res) => {
   if(req.headers.authorization){
     if(login.CheckIsLogin(req.headers.authorization.split(' ')[1])){
       connection.query('SELECT * FROM sujet', (error, results, fields) => {
@@ -47,7 +47,7 @@ router.get('/chat/sujet', (req, res) => {
 
 
 // Afficher toutes les conversations qui sont ouvertes
-router.get('/chat/rooms', (req, res) => {
+router.get('/rooms', (req, res) => {
   if(req.headers.authorization){
   if(login.CheckIsLogin(req.headers.authorization.split(' ')[1])){
     connection.query('SELECT * FROM conv WHERE conv_status = 0', (error, results, fields) => {
@@ -71,7 +71,7 @@ else{
   });
 
   // Afficher toutes les informations d'une conversation précise
-  router.get('/chat/rooms/:roomId', (req, res) => {
+  router.get('/rooms/:roomId', (req, res) => {
     if(req.headers.authorization){
     if(login.CheckIsLogin(req.headers.authorization.split(' ')[1])){
     const roomId = req.params.roomId;
@@ -92,7 +92,7 @@ else{
   });
 
   // Afficher toutes les conversations qui sont fermées
-  router.get('/chat/closed-room', (req, res) => {
+  router.get('/closed-room', (req, res) => {
     if(req.headers.authorization){
     if(login.CheckIsLogin(req.headers.authorization.split(' ')[1])){
     connection.query('SELECT * FROM conv WHERE conv_status = 1', (error, results, fields) => {
@@ -113,7 +113,7 @@ else{
   });
 
   // Récupérer tous les messages d'une conversation
-  router.get('/chat/messages/:roomId', (req, res) => {
+  router.get('/messages/:roomId', (req, res) => {
     if(req.headers.authorization){
     if(login.CheckIsLogin(req.headers.authorization.split(' ')[1])){
       console.log("je ")
@@ -136,7 +136,7 @@ else{
   });
 
   // Enregistrer un message dans la base de données
-  router.post('/chat/messages', (req, res) => {
+  router.post('/messages', (req, res) => {
     if(req.headers.authorization){
     if(login.CheckIsLogin(req.headers.authorization.split(' ')[1])){
     const { roomId, message } = req.body;
