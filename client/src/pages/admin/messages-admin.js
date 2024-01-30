@@ -14,7 +14,7 @@ const MessagesAdmin = ({ socket, room, token }) => {
 
   useEffect(() => {
     axios
-      .get(`https://anthony-kalbe.fr/chat/messages/${room}`, { headers: { Authorization: 'Bearer ' + token }})
+      .get(`https://serverchat.anthony-kalbe.fr/messages/${room}`, { headers: { Authorization: 'Bearer ' + token }})
       .then((res) => {
         console.log('messages conversation '+res.data);
         setMessagesDB(res.data);

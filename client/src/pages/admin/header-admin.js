@@ -5,7 +5,7 @@ const Header = ({token}) => {
     const navigate = useNavigate();
     const [sujets, setSujets] = useState([]);
     useEffect(() => {
-        axios.get('https://anthony-kalbe.fr/chat/sujet', { headers: { Authorization: 'Bearer ' + token }})
+        axios.get('https://serverchat.anthony-kalbe.fr/sujet', { headers: { Authorization: 'Bearer ' + token }})
             .then(response => {
                 setSujets(response.data);
             })
@@ -19,9 +19,9 @@ const Header = ({token}) => {
         return (
             <div className='header'>
                 <nav className='menu_navigation'>
-                    <button onClick={() => navigate('/admin/', { replace: true })}>Page accueil administration</button>
-                    <button onClick={() => navigate('/admin/conv-open', { replace: true, })}>Conversations en cours</button>
-                    <button onClick={() => navigate('/admin/conv-closed', { replace: true })}>Conversations fermées</button>
+                    <button onClick={() => navigate('fchat/admin/', { replace: true })}>Page accueil administration</button>
+                    <button onClick={() => navigate('fchat/admin/conv-open', { replace: true, })}>Conversations en cours</button>
+                    <button onClick={() => navigate('fchat/admin/conv-closed', { replace: true })}>Conversations fermées</button>
                    
                 </nav>
             </div>

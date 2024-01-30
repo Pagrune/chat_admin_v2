@@ -17,7 +17,7 @@ const Home = ({ token,username, setUsername, rubrique, setRubrique, titleConv, s
       console.log(token);
       if(token){
         console.log('dans if' +token);
-        axios.get('https://anthony-kalbe.fr/chat/sujet', { headers: { Authorization: 'Bearer ' + token}})
+        axios.get('https://serverchat.anthony-kalbe.fr/sujet', { headers: { Authorization: 'Bearer ' + token}})
             .then(response => {
                 setSujets(response.data);
                 setisLoading(false);
@@ -36,7 +36,7 @@ const Home = ({ token,username, setUsername, rubrique, setRubrique, titleConv, s
   // if convOpen === true, redirect to /reconnect
   if (convData) {
     const { convOpen } = JSON.parse(convData);
-    if (convOpen) navigate('/reconnect', { replace: true });
+    if (convOpen) navigate('/fchat/reconnect', { replace: true });
   }
 }, [navigate]);
 

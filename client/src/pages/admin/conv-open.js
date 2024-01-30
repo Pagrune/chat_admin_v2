@@ -10,13 +10,13 @@ const AdminConvOpen = ({ username, setUsername,token, room, setRoom, rubrique, s
   const [selectedSujet, setSelectedSujet] = useState("");
 
   useEffect(() => {
-    axios.get('https://anthony-kalbe.fr/chat/rooms', { headers: { Authorization: 'Bearer ' + token }})
+    axios.get('https://serverchat.anthony-kalbe.fr/rooms', { headers: { Authorization: 'Bearer ' + token }})
       .then(response => setRooms(response.data))
       .catch(error => console.error('Erreur lors de la récupération des rooms :', error));
   }, []); // Ajout du tableau de dépendances vide
 
   useEffect(() => {
-    axios.get('https://anthony-kalbe.fr/chat/sujet',  { headers: { Authorization: 'Bearer ' + token }})
+    axios.get('https://serverchat.anthony-kalbe.fr/sujet',  { headers: { Authorization: 'Bearer ' + token }})
         .then(response => {
             setSujets(response.data);
         })

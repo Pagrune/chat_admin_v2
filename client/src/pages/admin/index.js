@@ -9,7 +9,7 @@
     // const [room, setRoom] = useState('');
 
     useEffect(() => {
-      axios.get(`https://anthony-kalbe.fr/chat/closed-room`, { headers: { Authorization: 'Bearer ' + token }})
+      axios.get(`https://serverchat.anthony-kalbe.fr/closed-room`, { headers: { Authorization: 'Bearer ' + token }})
         .then(response => {
           setClosedRooms(response.data);
         })
@@ -19,7 +19,7 @@
     }, [token]); // Ajout du tableau de dépendances vide
 
     useEffect(() => {
-      axios.get('https://anthony-kalbe.fr/chat/rooms', { headers: { Authorization: 'Bearer ' + token }})
+      axios.get('https://serverchat.anthony-kalbe.fr/rooms', { headers: { Authorization: 'Bearer ' + token }})
         .then(response => setRooms(response.data))
         .catch(error => {return});
     }, [token]); // Ajout du tableau de dépendances vide
@@ -53,8 +53,8 @@
           <div>
             <p>Voir les conversations :</p>
             <div className='admin-home-button'>
-              <button onClick={() => navigate('/admin/conv-open', { replace: true })}>Conversations en cours</button>
-              <button onClick={() => navigate('/admin/conv-closed', { replace: true })}>Conversations fermées</button>
+              <button onClick={() => navigate('/fchat/admin/conv-open', { replace: true })}>Conversations en cours</button>
+              <button onClick={() => navigate('/fchat/admin/conv-closed', { replace: true })}>Conversations fermées</button>
             </div>
             
           </div>

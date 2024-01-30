@@ -20,7 +20,7 @@ const AdminClosedChat = ({ socket, token }) => {
 
       // Effectuez la requête API après avoir récupéré les données depuis le socket
       axios
-        .get(`https://anthony-kalbe.fr/chat/messages/${roomId}`, { headers: { Authorization: 'Bearer ' + token }})
+        .get(`https://serverchat.anthony-kalbe.fr/messages/${roomId}`, { headers: { Authorization: 'Bearer ' + token }})
         .then((res) => {
           console.log('messages conversation ' + res.data);
           setMessagesDB(res.data);
