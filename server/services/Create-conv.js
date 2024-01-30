@@ -18,9 +18,10 @@ async function CreateConv(rubrique, titleConv) {
 
     // Obtenir une connexion du pool
     const connection = await pool.getConnection();
+    const status = 0;
 
     // Exécuter la requête d'insertion
-    const [rows, fields] = await connection.execute('INSERT INTO conv (id_sujet, conv_title) VALUES (?, ?)', [rubrique, titleConv]);
+    const [rows, fields] = await connection.execute('INSERT INTO conv (id_sujet, conv_title, conv_status) VALUES (?, ?, ?)', [rubrique, titleConv, status]);
 
     // Retourner l'ID de la conversation nouvellement insérée
     const convId = rows.insertId;
