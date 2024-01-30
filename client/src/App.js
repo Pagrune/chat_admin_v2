@@ -50,29 +50,29 @@ function App() {
     <Router>
       <div className='App'>
         <Routes>
-          <Route path='/'
+          <Route path='/fchat'
             element={<Home token={token} username={username} setUsername={setUsername} room={room} setRoom={setRoom} rubrique={rubrique} setRubrique={setRubrique} titleConv={titleConv} setTitleConv={setTitleConv} socket={socket}
             />
             }
           />
           <Route
-            path='/chat'
+            path='/fchat/chat'
             element={<Chat token={token} username={username} room={room} rubrique={rubrique} titleConv={titleConv} socket={socket} />}
           />
           <Route
-            path='/admin'
+            path='/fchat/admin'
             element={<AdminPage token={token} username={username} setUsername={setUsername} room={room} setRoom={setRoom} rubrique={rubrique} titleConv={titleConv} socket={socket} />}
           />
           <Route
-            path='/admin/conv-open'
+            path='/fchat/admin/conv-open'
             element={<AdminConvOpen token={token} username={username} setUsername={setUsername} room={room} setRoom={setRoom} rubrique={rubrique} titleConv={titleConv} socket={socket} />}
           />
           <Route
-            path='/admin/conv-closed'
+            path='/fchat/admin/conv-closed'
             element={<AdminConvClosed token={token} username={username} setUsername={setUsername} room={room} setRoom={setRoom} rubrique={rubrique} titleConv={titleConv} socket={socket} />}
           />
-          <Route path='/admin/chat' element={<AdminChat token={token} username={username} room={room} rubrique={rubrique} titleConv={titleConv} socket={socket} />} />
-          <Route path='/admin/closed-id' element={<AdminClosedChat token={token} socket={socket} />} />
+          <Route path='/fchat/admin/chat' element={<AdminChat token={token} username={username} room={room} rubrique={rubrique} titleConv={titleConv} socket={socket} />} />
+          <Route path='/fchat/admin/closed-id' element={<AdminClosedChat token={token} socket={socket} />} />
         </Routes>
       </div>
     </Router>
