@@ -4,7 +4,7 @@ on:
     branches:
       - master
 
-      
+
 jobs:
   Deployment:
     runs-on: ubuntu-latest
@@ -20,19 +20,30 @@ jobs:
       - name: Install Dependencies
         run: npm install
         working-directory: ./client
+        
 
       - name: Building the App
         run: npm run build
         working-directory: ./client
+        env:
+          CI: false
 
-      - name: Deploy my code to my server
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+      - name: deploy rsync to server
+        uses: Pendect/action-rsyncer@v1.1.0
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
         with:
-            server: anthony-kalbe.fr
-            username: sftpuser
-            password: ${{ secrets.sftpuserpwd }}
-            local-dir: ./client/build/
-            server-dir: ./var/www/html/chat/client/
+            flags: '-zvr'
+            options: '-O'
+            src: './client/build/'
+            dest: 'anthony@anthony-kalbe.fr:/var/www/html/chat'
+
+          
+
+          
+
+        
+        
 
 
 
