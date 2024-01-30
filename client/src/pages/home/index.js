@@ -33,12 +33,12 @@ const Home = ({ token,username, setUsername, rubrique, setRubrique, titleConv, s
  useEffect(() => {
   const convData = localStorage.getItem('conv_open');
 
-  // if convOpen === true, redirect to /reconnect
-  if (convData) {
-    const { convOpen } = JSON.parse(convData);
-    if (convOpen) navigate('/fchat/reconnect', { replace: true });
-  }
-}, [navigate]);
+//   // if convOpen === true, redirect to /reconnect
+//   if (convData) {
+//     const { convOpen } = JSON.parse(convData);
+//     if (convOpen) navigate('/fchat/reconnect', { replace: true });
+//   }
+// }, [navigate]);
 
     const joinRoom = () => {
       if ((rubrique === '1' || rubrique === '2') && titleConv !== '') {
