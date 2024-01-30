@@ -199,6 +199,14 @@ io.on('connection', (socket) => {
     });
   });
   
+  socket.on('leave_room', (data) => {
+    const { room } = data;
+    socket.leave(room);
+    console.log(`User ${socket.id} left room ${room}`);
+    socket.removeAllListeners('send_message');
+
+  
+  });
 });
 
 
