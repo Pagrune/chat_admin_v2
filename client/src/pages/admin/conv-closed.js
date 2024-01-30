@@ -39,7 +39,7 @@ const AdminConvClosed = ({ username, setUsername, token, room, setRoom, rubrique
 
   const handleRoomClosedClick = (roomId, convTitle, convStatus) => {
     socket.emit('room_closed_clicked', { roomId, convTitle, convStatus });
-    navigate('/admin/closed-id', { replace: true });
+    navigate('/fchat/admin/closed-id', { replace: true });
 
   };
 

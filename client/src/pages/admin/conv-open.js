@@ -41,7 +41,7 @@ const AdminConvOpen = ({ username, setUsername,token, room, setRoom, rubrique, s
       }
 
       // Redirect to /admin/chat
-      navigate('/admin/chat', { replace: true });
+      navigate('/fchat/admin/chat', { replace: true });
 
   };
 

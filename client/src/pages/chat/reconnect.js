@@ -15,7 +15,7 @@ const Reconnect = ({ socket }) => {
   // if localStorage is empty, redirect to home
   useEffect(() => {
     if (!convData || !convData.room || !convData.token) {
-      navigate('/', { replace: true });
+      navigate('/fchat/', { replace: true });
     }
   }, [navigate, convData]);
 

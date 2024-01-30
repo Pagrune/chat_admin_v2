@@ -19,9 +19,9 @@ const Header = ({token}) => {
         return (
             <div className='header'>
                 <nav className='menu_navigation'>
-                    <button onClick={() => navigate('fchat/admin/', { replace: true })}>Page accueil administration</button>
-                    <button onClick={() => navigate('fchat/admin/conv-open', { replace: true, })}>Conversations en cours</button>
-                    <button onClick={() => navigate('fchat/admin/conv-closed', { replace: true })}>Conversations fermées</button>
+                    <button onClick={() => navigate('/fchat/admin/', { replace: true })}>Page accueil administration</button>
+                    <button onClick={() => navigate('/fchat/admin/conv-open', { replace: true, })}>Conversations en cours</button>
+                    <button onClick={() => navigate('/fchat/admin/conv-closed', { replace: true })}>Conversations fermées</button>
                    
                 </nav>
             </div>
