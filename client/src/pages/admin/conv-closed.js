@@ -12,7 +12,7 @@ const AdminConvClosed = ({ username, setUsername, token, room, setRoom, rubrique
   const [selectedSujet, setSelectedSujet] = useState("");
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/closed-room`, { headers: { Authorization: 'Bearer ' + token }})
+    axios.get(`https://serverchat.anthony-kalbe.fr/closed-room`, { headers: { Authorization: 'Bearer ' + token }})
       .then(response => {
         setClosedRooms(response.data);
       })
