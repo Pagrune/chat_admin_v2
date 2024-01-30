@@ -58,15 +58,17 @@ io.on('connection', (socket) => {
   console.log(`User connected ${socket.id}`);
 
   socket.on('join_room', async (data) => {
-    const { username, rubrique, titleConv  } = data; // Include roomId in the destructuring
+    const { rubrique, titleConv  } = data; // Include roomId in the destructuring
     console.log(data);
-  
+    const username = login.getPayloadData(socket.handshake.headers.authorization.split(' ')[1]).id_customer;
     try {
           // Utilisez 'await' pour attendre que la conversation soit créée
           const room = await CreateConv(rubrique, titleConv);
 
           // console.log(room);
           socket.join(room); // Join the user to a socket room
+
+          socket.emit('room_joined', { room });
 
           let __createdtime__ = Date.now();
           // Send message to all users currently in the room, apart from the user that just joined
@@ -91,7 +93,7 @@ io.on('connection', (socket) => {
           socket.emit('chatroom_users', chatRoomUsers);
 
           socket.on('send_message', (data) => {
-            const { message, username, __createdtime__ } = data;
+            const { message, __createdtime__ } = data;
             console.log(data);
             io.in(room).emit('receive_message', { ...data, room }); // Send to all users in the room, including the sender
             enregistrerMessage(message, username, __createdtime__, room) // Save the message in the database
@@ -181,7 +183,30 @@ io.on('connection', (socket) => {
     socket.to(data.room).emit('room_closed_clicked', data);
     console.log('Room closed clicked:', data);
   });
+
+  socket.on("reconnect", (data)=>{
+    const { token, room } = data;
+    console.log("reconnect" + room);
+    socket.join(room); // Join the user to a socket room
+    socket.on('send_message', (data) => {
+      const { message, __createdtime__ } = data;
+      console.log(data);
+      const username = login.getPayloadData(socket.handshake.headers.authorization.split(' ')[1]).id_customer;
+      io.in(room).emit('receive_message', { ...data, room }); // Send to all users in the room, including the sender
+      enregistrerMessage(message, username, __createdtime__, room) // Save the message in the database
+        .then((response) => console.log(response))
+        .catch((err) => console.log(err));
+    });
+  });
   
+  socket.on('leave_room', (data) => {
+    const { room } = data;
+    socket.leave(room);
+    console.log(`User ${socket.id} left room ${room}`);
+    socket.removeAllListeners('send_message');
+
+  
+  });
 });
 
 

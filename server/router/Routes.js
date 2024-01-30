@@ -116,6 +116,7 @@ else{
   router.get('/messages/:roomId', (req, res) => {
     if(req.headers.authorization){
     if(login.CheckIsLogin(req.headers.authorization.split(' ')[1])){
+      console.log("je ")
     const roomId = req.params.roomId;
     connection.query('SELECT * FROM message WHERE id_conv = ?', [roomId], (error, results, fields) => {
       if (error) {

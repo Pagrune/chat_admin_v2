@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import io from 'socket.io-client'; // Add this
 import Home from './pages/home';
 import Chat from './pages/chat';
+import Reconnect from './pages/chat/reconnect';
 import AdminPage from './pages/admin';
 import AdminChat from './pages/admin/chat';
 // import axios from 'axios';
@@ -25,7 +26,8 @@ function App() {
   const [rubrique, setRubrique] = useState('');
   const [titleConv, setTitleConv] = useState('');
   const [socket, setSocket] = useState();
-  // const [isLogin, setIsLogin] = useState(true);
+  // const [isLogin, setIsLogin] = useState(true); 
+
 
   //Récupération du cookie mutconnex dans le state token
   useEffect(() => {
@@ -40,6 +42,8 @@ function App() {
       ));
     }
   }, []);
+
+
 
   // console.log(token);
   // 
@@ -60,6 +64,7 @@ function App() {
             path='/fchat/chat'
             element={<Chat token={token} username={username} room={room} rubrique={rubrique} titleConv={titleConv} socket={socket} />}
           />
+          <Route path='/reconnect' element={<Reconnect socket={socket}/>} />
           <Route
             path='/fchat/admin'
             element={<AdminPage token={token} username={username} setUsername={setUsername} room={room} setRoom={setRoom} rubrique={rubrique} titleConv={titleConv} socket={socket} />}

@@ -29,19 +29,41 @@ const Home = ({ token,username, setUsername, rubrique, setRubrique, titleConv, s
          
     },[token]) ;
 
+     //récuperation localstorage
+ useEffect(() => {
+  const convData = localStorage.getItem('conv_open');
+
+  // if convOpen === true, redirect to /reconnect
+  if (convData) {
+    const { convOpen } = JSON.parse(convData);
+    if (convOpen) navigate('/reconnect', { replace: true });
+  }
+}, [navigate]);
+
     const joinRoom = () => {
-        if ((rubrique === '1' || rubrique === '2') && titleConv !== '') {
-          socket.emit('join_room', { token , rubrique , titleConv });
-          // Redirect to /chat
+      if ((rubrique === '1' || rubrique === '2') && titleConv !== '') {
+       // Émettre l'événement join_room au serveur
+        socket.emit('join_room', { rubrique, titleConv, token });
+
+        // Écouter la réponse du serveur avec l'ID de la room
+        socket.once('room_joined', (data) => {
+          const { room } = data;
+          const convData = { convOpen: true, token, room };
+          localStorage.setItem('conv_open', JSON.stringify(convData));
+
+          // Rediriger vers /chat
           navigate('/chat', { replace: true });
-        }
-        else{
-          alert('Veuillez remplir tous les champs');
-        }
-      };
+        });
+      }
+      else{
+        alert('Veuillez remplir tous les champs');
+      }
+    };
+  
 
       const openChat = () => {
         document.querySelector('.le-chat').classList.toggle('open');
+        window.parent.postMessage("toggleClasses", "*");
       };
 
   return (
