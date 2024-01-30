@@ -17,6 +17,8 @@ const Chat = ({ username, room, rubrique, token, titleConv, socket }) => {
     // Écoute l'événement 'close_conv' venant du serveur
     socket.on('close_conv', () => {
       navigate('/fchat/', { replace: true });
+
+      window.location.reload();
       // clear local storage
       // localStorage.removeItem('conv_open');
     });
