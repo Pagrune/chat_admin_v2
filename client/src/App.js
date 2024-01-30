@@ -43,7 +43,7 @@ function App() {
   // console.log(token);
   // 
 
-  if (!socket) return 'att frr';
+  // if (!socket) return 'att frr';
 
   // console.log(token);
   return (
