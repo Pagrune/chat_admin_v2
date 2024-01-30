@@ -35,7 +35,7 @@ const AdminChat = ({ username, room, token, rubrique, titleConv, socket }) => {
   const [Conv, setConv] = useState([]);
 
   useEffect(() => {
-    axios.get(`http://localhost:4000/rooms/${room}`, { headers: { Authorization: 'Bearer ' + token }})
+    axios.get(`https://anthony-kalbe.fr/chat/rooms/${room}`, { headers: { Authorization: 'Bearer ' + token }})
       .then(response => {
         setConv(response.data);
         console.log('la petite conv =', response.data);

@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import Header from './header-admin';
 import axios from 'axios';
 
+
+
+
 const AdminClosedChat = ({ socket, token }) => {
   const [roomId, setRoomId] = useState('');
   const [convTitle, setConvTitle] = useState('');
@@ -17,7 +20,7 @@ const AdminClosedChat = ({ socket, token }) => {
 
       // Effectuez la requête API après avoir récupéré les données depuis le socket
       axios
-        .get(`http://localhost:4000/messages/${roomId}`, { headers: { Authorization: 'Bearer ' + token }})
+        .get(`https://anthony-kalbe.fr/chat/messages/${roomId}`, { headers: { Authorization: 'Bearer ' + token }})
         .then((res) => {
           console.log('messages conversation ' + res.data);
           setMessagesDB(res.data);

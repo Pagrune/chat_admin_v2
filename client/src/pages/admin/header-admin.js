@@ -5,7 +5,7 @@ const Header = ({token}) => {
     const navigate = useNavigate();
     const [sujets, setSujets] = useState([]);
     useEffect(() => {
-        axios.get('http://localhost:4000/sujet', { headers: { Authorization: 'Bearer ' + token }})
+        axios.get('https://anthony-kalbe.fr/chat/sujet', { headers: { Authorization: 'Bearer ' + token }})
             .then(response => {
                 setSujets(response.data);
             })

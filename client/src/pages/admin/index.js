@@ -9,7 +9,7 @@
     // const [room, setRoom] = useState('');
 
     useEffect(() => {
-      axios.get(`http://localhost:4000/closed-room`, { headers: { Authorization: 'Bearer ' + token }})
+      axios.get(`https://anthony-kalbe.fr/chat/closed-room`, { headers: { Authorization: 'Bearer ' + token }})
         .then(response => {
           setClosedRooms(response.data);
         })
@@ -19,7 +19,7 @@
     }, [token]); // Ajout du tableau de dépendances vide
 
     useEffect(() => {
-      axios.get('http://localhost:4000/rooms', { headers: { Authorization: 'Bearer ' + token }})
+      axios.get('https://anthony-kalbe.fr/chat/rooms', { headers: { Authorization: 'Bearer ' + token }})
         .then(response => setRooms(response.data))
         .catch(error => {return});
     }, [token]); // Ajout du tableau de dépendances vide

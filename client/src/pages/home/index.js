@@ -17,7 +17,7 @@ const Home = ({ token,username, setUsername, rubrique, setRubrique, titleConv, s
       console.log(token);
       if(token){
         console.log('dans if' +token);
-        axios.get('http://localhost:4000/sujet', { headers: { Authorization: 'Bearer ' + token}})
+        axios.get('https://anthony-kalbe.fr/chat/sujet', { headers: { Authorization: 'Bearer ' + token}})
             .then(response => {
                 setSujets(response.data);
                 setisLoading(false);
