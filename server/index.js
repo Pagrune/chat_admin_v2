@@ -165,14 +165,13 @@ io.on('connection', (socket) => {
             .catch((err) => console.log(err));
         });
 
-         socket.on('close_conv', () => {
-          const roomId = room;
-          console.log('salutations'+roomId);
-          socket.to(roomId).emit('close_conv');
-          updateConv(room) // Save the message in the database
-            .then((response) => console.log(response))
-            .catch((err) => console.log(err));
-        });
+        socket.on('close_conv', () => {
+          console.log('salutations' + roomId);
+          socket.to(room).emit('close_conv');  // Émettre l'événement seulement lorsque vous avez l'intention de fermer la conversation
+          updateConv(room)
+              .then((response) => console.log(response))
+              .catch((err) => console.log(err));
+      });
 
          
   });
