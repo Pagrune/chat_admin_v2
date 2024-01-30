@@ -63,6 +63,7 @@ const Home = ({ token,username, setUsername, rubrique, setRubrique, titleConv, s
 
       const openChat = () => {
         document.querySelector('.le-chat').classList.toggle('open');
+        window.parent.postMessage("toggleClasses", "*");
       };
 
   return (
