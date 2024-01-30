@@ -38,6 +38,15 @@ jobs:
             src: './client/build/'
             dest: 'root@anthony-kalbe.fr:/var/www/html/chat/client/'
 
+      - name: deploy the server
+        uses: Pendect/action-rsyncer@v1.1.0
+        env:
+          DEPLOY_KEY: ${{ secrets.DEPLOY_KEY }}
+        with:
+            flags: '-zvr'
+            options: '-O'
+            src: './server/'
+            dest: 'root@anthony-kalbe.fr:/var/www/html/chat/server/'
           
 
           
