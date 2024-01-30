@@ -68,8 +68,8 @@ const Home = ({ token,username, setUsername, rubrique, setRubrique, titleConv, s
 
   return (
     <div className='le-fond'>
-      <div className='icone open' onClick={openChat}><img src={icon} alt="Chat icon" /></div>
-      <div className={`le-chat ${token ? 'open' : ''}`}>
+      <div className='icone' onClick={openChat}><img src={icon} alt="Chat icon" /></div>
+      <div className={`le-chat open ${token ? 'open' : ''}`}>
         {token ? (
           <>
             <h1>Bienvenue sur le chat </h1>
