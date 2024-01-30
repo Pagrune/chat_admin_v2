@@ -36,7 +36,7 @@ jobs:
             flags: '-zvr'
             options: '-O'
             src: './client/build/'
-            dest: 'anthony@anthony-kalbe.fr:/var/www/html/chat'
+            dest: 'root@anthony-kalbe.fr:/var/www/html/chat'
 
           
 
