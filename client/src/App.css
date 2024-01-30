@@ -26,7 +26,7 @@
 }
 
 .le-chat{
-  display: block;
+  display: none;
   position: fixed;
   bottom: 120px;
   right: 40px;
@@ -37,7 +37,7 @@
 }
 
 .le-chat.open{
-  display: none;
+  display: block;
 }
 
 .admin-body{
