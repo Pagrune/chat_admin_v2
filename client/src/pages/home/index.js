@@ -30,8 +30,8 @@ const Home = ({ token,username, setUsername, rubrique, setRubrique, titleConv, s
     },[token]) ;
 
      //récuperation localstorage
- useEffect(() => {
-  const convData = localStorage.getItem('conv_open');
+//  useEffect(() => {
+//   const convData = localStorage.getItem('conv_open');
 
 //   // if convOpen === true, redirect to /reconnect
 //   if (convData) {
@@ -48,8 +48,8 @@ const Home = ({ token,username, setUsername, rubrique, setRubrique, titleConv, s
         // Écouter la réponse du serveur avec l'ID de la room
         socket.once('room_joined', (data) => {
           const { room } = data;
-          const convData = { convOpen: true, token, room };
-          localStorage.setItem('conv_open', JSON.stringify(convData));
+          // const convData = { convOpen: true, token, room };
+          // localStorage.setItem('conv_open', JSON.stringify(convData));
 
           // Rediriger vers /chat
           navigate('/fchat/chat', { replace: true });
