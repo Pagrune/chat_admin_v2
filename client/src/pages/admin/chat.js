@@ -25,6 +25,7 @@ const AdminChat = ({ username, room, token, rubrique, titleConv, socket }) => {
       
     }
 
+    
     return () => {
       if (closeConvButton) {
         closeConvButton.removeEventListener('click', closeConvHandler);
